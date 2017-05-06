@@ -1,0 +1,505 @@
+
+
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>ng-admin介绍 | 技术洞见</title>
+  <meta name="author" content="冯尧">
+  
+  <meta name="description" content="冯尧的博客，yaoel.com, 冯尧, fengyao">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="ng-admin介绍"/>
+  <meta property="og:site_name" content="技术洞见"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.ico" rel="icon" type="image/x-ico">
+  <link rel="alternate" href="/blog/atom.html" title="技术洞见" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//libs.baidu.com/jquery/1.8.0/jquery.min.js"></script>
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-75900900-2', 'auto');
+    ga('send', 'pageview');
+
+  </script>  
+
+  <script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?7efb292af7d759464f078eab4459046a";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
+  </script>
+
+
+  <link rel="canonical" href=" { { site.url } }{ { page.url } }" />
+
+  <link rel="canonical" href="http://yaofeng.org/2016/11/21/ng-admin-introduction/">
+
+  <meta name="google-site-verification" content="kh_sB30WwfjtDbuLlr6BFEWJecFKCcNU2m27xSVvtao" />
+  <meta name="baidu-site-verification" content="KPpYrWskhS" />
+  <meta name="baidu-site-verification" content="rsZXaL5qfH" />
+</head>
+
+
+<body>
+  <header id="header" class="inner">
+<div class="alignleft">
+  <h1><a href="/">技术洞见</a></h1>
+  <h2><a href="/">疑而能问，已得知识之半。</a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">首页</a></li>
+    
+      <li><a href="/archives">归档</a></li>
+    
+      <li><a href="/about">关于</a></li>
+    
+	<li> <a href="/atom.xml">RSS</a> </li>
+<li> <a title="把这个链接拖到你的Chrome收藏夹工具栏中" href='javascript:(function() {
+	function c() {
+		var e = document.createElement("link");
+		e.setAttribute("type", "text/css");
+		e.setAttribute("rel", "stylesheet");
+		e.setAttribute("href", f);
+		e.setAttribute("class", l);
+		document.body.appendChild(e)
+	}
+ 
+	function h() {
+		var e = document.getElementsByClassName(l);
+		for (var t = 0; t < e.length; t++) {
+			document.body.removeChild(e[t])
+		}
+	}
+ 
+	function p() {
+		var e = document.createElement("div");
+		e.setAttribute("class", a);
+		document.body.appendChild(e);
+		setTimeout(function() {
+			document.body.removeChild(e)
+		}, 100)
+	}
+ 
+	function d(e) {
+		return {
+			height : e.offsetHeight,
+			width : e.offsetWidth
+		}
+	}
+ 
+	function v(i) {
+		var s = d(i);
+		return s.height > e && s.height < n && s.width > t && s.width < r
+	}
+ 
+	function m(e) {
+		var t = e;
+		var n = 0;
+		while (!!t) {
+			n += t.offsetTop;
+			t = t.offsetParent
+		}
+		return n
+	}
+ 
+	function g() {
+		var e = document.documentElement;
+		if (!!window.innerWidth) {
+			return window.innerHeight
+		} else if (e && !isNaN(e.clientHeight)) {
+			return e.clientHeight
+		}
+		return 0
+	}
+ 
+	function y() {
+		if (window.pageYOffset) {
+			return window.pageYOffset
+		}
+		return Math.max(document.documentElement.scrollTop, document.body.scrollTop)
+	}
+ 
+	function E(e) {
+		var t = m(e);
+		return t >= w && t <= b + w
+	}
+ 
+	function S() {
+		var e = document.createElement("audio");
+		e.setAttribute("class", l);
+		e.src = i;
+		e.loop = false;
+		e.addEventListener("canplay", function() {
+			setTimeout(function() {
+				x(k)
+			}, 500);
+			setTimeout(function() {
+				N();
+				p();
+				for (var e = 0; e < O.length; e++) {
+					T(O[e])
+				}
+			}, 15500)
+		}, true);
+		e.addEventListener("ended", function() {
+			N();
+			h()
+		}, true);
+		e.innerHTML = " <p>If you are reading this, it is because your browser does not support the audio element. We recommend that you get a new browser.</p> <p>";
+		document.body.appendChild(e);
+		e.play()
+	}
+ 
+	function x(e) {
+		e.className += " " + s + " " + o
+	}
+ 
+	function T(e) {
+		e.className += " " + s + " " + u[Math.floor(Math.random() * u.length)]
+	}
+ 
+	function N() {
+		var e = document.getElementsByClassName(s);
+		var t = new RegExp("\\b" + s + "\\b");
+		for (var n = 0; n < e.length; ) {
+			e[n].className = e[n].className.replace(t, "")
+		}
+	}
+ 
+	var e = 30;
+	var t = 30;
+	var n = 350;
+	var r = 350;
+	var i = "//s3.amazonaws.com/moovweb-marketing/playground/harlem-shake.mp3";
+	var s = "mw-harlem_shake_me";
+	var o = "im_first";
+	var u = ["im_drunk", "im_baked", "im_trippin", "im_blown"];
+	var a = "mw-strobe_light";
+	var f = "//s3.amazonaws.com/moovweb-marketing/playground/harlem-shake-style.css";
+	var l = "mw_added_css";
+	var b = g();
+	var w = y();
+	var C = document.getElementsByTagName("*");
+	var k = null;
+	for (var L = 0; L < C.length; L++) {
+		var A = C[L];
+		if (v(A)) {
+			if (E(A)) {
+				k = A;
+				break
+			}
+		}
+	}
+	if (A === null) {
+		console.warn("Could not find a node of the right size. Please try a different page.");
+		return
+	}
+	c();
+	S();
+	var O = [];
+	for (var L = 0; L < C.length; L++) {
+		var A = C[L];
+		if (v(A)) {
+			O.push(A)
+		}
+	}
+})()    '>High一下</a> </li>
+
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2016-11-21T11:29:01.000Z"><a href="/2016/11/21/ng-admin-introduction/">2016-11-21</a></time>
+      
+      
+  
+    <h1 class="title">ng-admin介绍</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>写在前面：本文档翻译自ng-admin 0.91版本。</p>
+<p>使用ng-admin配合RESTFul风格的后端API可以马上得到一个完整的管理界面，功能包括：数据表格（datagrid）、过滤器（filters）、复杂的表单控件（complex form widgets）、多模型关系（multi-model relationships）和仪表盘/概览（dashboard）。它不仅仅拥有简单的增删该查（CRUD）功能，在不影响其他开发进度的情况下，ng-admin能够很快帮助你构建一个复杂的图形用户界面。</p>
+<ul>
+<li><a href="http://marmelab.com/ng-admin-demo/#/dashboard" target="_blank" rel="external">在线例子</a>(<a href="https://github.com/marmelab/ng-admin-demo" target="_blank" rel="external">例子源码</a>)</li>
+<li><a href="http://ng-admin-book.marmelab.com/" target="_blank" rel="external">英文文档</a></li>
+</ul>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>当前的ng-admin版本（master分支）基于Angular.js 1.4。如果你需要兼容Angular 1.3，请使用ng-admin 0.9。</p>
+<p>使用包管理工具npm或bower获取ng-admin：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">npm install ng-admin —save</div><div class="line"><span class="comment"># 或</span></div><div class="line">bower install ng-admin —save</div></pre></td></tr></table></figure>
+<p>将库文件ng-admin.min.css和ng-admin.min.js添加到HTML中，然后在<code>&lt;body&gt;&lt;/body&gt;中</code>增加<code>&lt;div ui-view&gt;</code>，最后对admin进行配置：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!doctype html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">“en”</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>My First Admin<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">“stylesheet”</span> <span class="attr">href</span>=<span class="string">“node_modules/ng-admin/build/ng-admin.min.css”</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">body</span> <span class="attr">ng-app</span>=<span class="string">“myApp”</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">ui-view</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">“node_modules/ng-admin/build/ng-admin.min.js”</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">“text/javascript”</span>&gt;</span><span class="undefined"></span></div><div class="line">    var myApp = angular.module(‘myApp’, [‘ng-admin’]);</div><div class="line">    myApp.config([‘NgAdminConfigurationProvider’, function(NgAdminConfigurationProvider) &#123;</div><div class="line">        var nga = NgAdminConfigurationProvider;</div><div class="line">        // 创建一个管理应用</div><div class="line">        var admin = nga.application(‘My First Admin’);</div><div class="line">        // 之后的更多配置</div><div class="line">        // ...</div><div class="line">        // 将管理应用连接到DOM中，然后运行它</div><div class="line">        nga.configure(admin);</div><div class="line">    &#125;]);</div><div class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<h2 id="入门getting-started"><a href="#入门（Getting-Started）" class="headerlink" title="入门（Getting Started）"></a>入门（Getting Started）</h2><p>如果是初次接触ng-admin，请仔细阅读章节<a href="入门.md">入门</a>。</p>
+<h2 id="用法示例usage-examples"><a href="#用法示例（Usage-Examples）" class="headerlink" title="用法示例（Usage Examples）"></a>用法示例（Usage Examples）</h2><ul>
+<li>在<a href="http://ng-admin.marmelab.com/#/dashboard" target="_blank" rel="external">博客管理示例</a>(<a href="examples/blog/config.js">源码</a>)中，你能看到一个简单的配置，里面的实体（entities)有发帖(posts)、评论（comments)和标签（tags）。同时使用FakeRest在浏览器中模拟后端REST API。</li>
+<li><a href="http://marmelab.com/ng-admin-demo/" target="_blank" rel="external">Posters Galore demo</a> (<a href="https://github.com/marmelab/ng-admin-demo" target="_blank" rel="external">source</a>) 是一个更完整的电子商务管理页面，包含自定义认证、页面、指令和模块，并使用WebPack组织良好。同时使用<a href="https://github.com/marmelab/FakeRest" target="_blank" rel="external">FakeRest</a>在浏览器中模拟后端REST API。</li>
+</ul>
+<h2 id="配置参考configuration-reference"><a href="#配置参考（Configuration-Reference）" class="headerlink" title="配置参考（Configuration Reference）"></a>配置参考（Configuration Reference）</h2><p>在ng-admin中，一个管理工具是由包含多个<em>实体（entities)</em>的<em>应用</em>组成。每个实体（entity)拥有5种<em>视图</em>，每个视图拥有很多<em>字段（fields）</em>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">application</div><div class="line"> |-header</div><div class="line"> |-menu</div><div class="line"> |-dashboard</div><div class="line"> |-entity[]</div><div class="line">    |-creationView</div><div class="line">    |-editionView</div><div class="line">    |-deletionView</div><div class="line">    |-showView</div><div class="line">    |-listView</div><div class="line">        |-field[]</div><div class="line">           |-name</div><div class="line">           |-type</div></pre></td></tr></table></figure>
+<p>有关更多详细信息，请参阅<a href="配置API参考.md">配置API参考</a>专用章节。</p>
+<p><strong>提示</strong>:您在ng-admin项目中将找不到相关的类。 实际上，管理配置API有一个独立、框架无关的库，称为<a href="https://github.com/marmelab/admin-config" target="_blank" rel="external">admin-config</a>。 不要犹豫，浏览该库的代码以了解更多。</p>
+<h2 id="关联relationships"><a href="#关联（Relationships）" class="headerlink" title="关联（Relationships）"></a>关联（Relationships）</h2><p>Ng-admin的读写视图实体之间支持‘关联’。它提供了特定的字段类型来实现这些‘关联’：<code>reference</code>, <code>referenced_list</code>, <code>reference_many</code>, 和 <code>embedded_list</code>。<a href="关联.md">关联参考章节</a>中使用例子描述了更多的字段类型。</p>
+<p>另外，<a href="配置API参考.md">配置API参考章节</a>的字段部分具有所有字段类型的列表。</p>
+<h2 id="菜单配置menu-configuration"><a href="#菜单配置（Menu-Configuration）" class="headerlink" title="菜单配置（Menu Configuration）"></a>菜单配置（Menu Configuration）</h2><p>默认情况下，ng-admin创建一个侧边栏菜单，每个实体有一个条目。 如果要自定义侧边栏（标签，图标，顺序，添加子菜单等），则必须手动定义菜单。</p>
+<p>请参见<a href="菜单配置.md">菜单配置</a>专用章节。</p>
+<h2 id="仪表板配置dashboard-configuration"><a href="#仪表板配置（Dashboard-Configuration）" class="headerlink" title="仪表板配置（Dashboard Configuration）"></a>仪表板配置（Dashboard Configuration）</h2><p>ng-admin应用程序的主页被称为仪表板。 使用它向最终用户显示重要的信息，例如最新条目或图表。</p>
+<p>请参阅<a href="仪表板配置.md">仪表板配置</a>专用章节。</p>
+<h2 id="定制api映射customizing-the-api-mapping"><a href="#定制API映射（Customizing-the-API-Mapping）" class="headerlink" title="定制API映射（Customizing the API Mapping）"></a>定制API映射（Customizing the API Mapping）</h2><p>ng-admin对REST API所做的所有HTTP请求都是由<a href="https://github.com/mgonto/restangular" target="_blank" rel="external">Restangular</a>执行的。</p>
+<p>REST规范没有提供足够的详细信息来涵盖管理GUI的所有需求。 ng-admin对如何设计您的API进行了一些假设。 所有这些假设都可以通过<a href="https://github.com/mgonto/restangular#addresponseinterceptor" target="_blank" rel="external">Restangular的请求和响应拦截器</a>来覆盖。</p>
+<p>这意味着你不需要为了ng-admin而调整你的API; ng-admin可以适应任何REST API，这要归功于Restangular的灵活性。</p>
+<p>请参阅<a href="定制API映射.md">定制API映射</a>专用章节。</p>
+<h2 id="主题theming"><a href="#主题（Theming）" class="headerlink" title="主题（Theming）"></a>主题（Theming）</h2><p>你可以在不同的级别覆盖几乎所有ng-admin生成的HTML。</p>
+<p>参见<a href="主题.md">主题</a>专门章节。</p>
+<h2 id="添加自定义页面adding-custom-pages"><a href="#添加自定义页面（Adding-Custom-Pages）" class="headerlink" title="添加自定义页面（Adding Custom Pages）"></a>添加自定义页面（Adding Custom Pages）</h2><p>对于每个实体，ng-admin创建用于’创建’，’检索’，’更新’和’删除’（CRUD）此实体的必要页面。 当您需要在实体上实现更特定的操作时，您必须添加自定义页面，例如要求向一个电子邮件地址发送消息的页面。 如何路由到特定页面并在ng-admin布局中显示它？</p>
+<p>请参阅<a href="添加自定义页面.md">添加自定义页面</a>专用章节。</p>
+<h2 id="添加自定义类型adding-custom-types"><a href="#添加自定义类型（Adding-Custom-Types）" class="headerlink" title="添加自定义类型（Adding Custom Types）"></a>添加自定义类型（Adding Custom Types）</h2><p>当您在REST API的响应信息和ng-admin之间映射字段时，您需要为其指定类型。 这个类型会确定如何显示和编辑这些数据。 自定义现有的ng-admin类型和添加新的ng-admin类型非常容易。</p>
+<p>请参阅<a href="添加自定义页面.md">添加自定义类型</a>专用章节。</p>
+<h2 id="生产准备getting-ready-for-production"><a href="#生产准备（Getting-Ready-For-Production）" class="headerlink" title="生产准备（Getting Ready For Production）"></a>生产准备（Getting Ready For Production）</h2><p>要构建具有所需依赖关系的ng-admin源，并获得关于性能提升的提示，请参阅<a href="生产准备.md">生产准备</a>专用章节。</p>
+<h2 id="信息news"><a href="#信息（News）" class="headerlink" title="信息（News）"></a>信息（News）</h2><p>关于ng-admin（教程，插件，新版本等）的新闻，请按照<a href="http://marmelab.com/blog/" target="_blank" rel="external">marmelab博客</a>。</p>
+<p>您还应该观看<a href="https://github.com/marmelab/ng-admin/releases" target="_blank" rel="external">gitHub上的ng-admin发布页面</a>以获取有关新发布的公告以及完成更新日志。</p>
+<h2 id="支持support"><a href="#支持（Support）" class="headerlink" title="支持（Support）"></a>支持（Support）</h2><p>Ng-admin是一个开源项目，并且社区越来越大。 您可以通过在以下任何渠道询求帮助：</p>
+<ul>
+<li><a href="http://stackoverflow.com/questions/tagged/ng-admin" target="_blank" rel="external">StackOverflow</a></li>
+<li>Gitter (live chat)](<a href="https://gitter.im/marmelab/ng-admin" target="_blank" rel="external">https://gitter.im/marmelab/ng-admin</a>) <a href="https://gitter.im/marmelab/ng-admin?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge&amp;utm_content=badge" target="_blank" rel="external"><img src="https://badges.gitter.im/Join%20Chat.svg" alt="Join the chat at https://gitter.im/marmelab/ng-admin"></a></li>
+</ul>
+<p>请尽可能多地提供上下文，包括和管理配置的代码段，以及您映射的API的响应。</p>
+<h2 id="贡献contributing"><a href="#贡献（Contributing）" class="headerlink" title="贡献（Contributing）"></a>贡献（Contributing）</h2><p>在您的特定环境中的使用ng-admin的反馈是有价值的，不要犹豫<a href="https://github.com/marmelab/ng-admin/issues" target="_blank" rel="external">打开GitHub的issue</a>提出任何你想问的问题。</p>
+
+      
+    </div>
+    <footer>
+      
+        
+  
+  <div class="categories">
+    <a href="/categories/ng-admin/">ng-admin</a>
+  </div>
+
+        
+  
+  <div class="tags">
+    <a href="/tags/ng-admin/">ng-admin</a>
+  </div>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+<section id="comment">
+
+<!-- 多说评论框 start -->
+    <div class="ds-thread" data-thread-key=0 data-title=0 data-url=0></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"ipyjs"};
+    (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+    </script>
+<!-- 多说公共JS代码 end -->
+ <nav id="pagination" >
+    
+    <a href="/2017/05/04/docker-run-raise-exception-permission-denied/" class="alignleft prev" >上一页</a>
+    
+    
+    <a href="/2016/09/11/some-tips-of-MySQL/" class="alignright next" >下一页</a>
+    
+    <div class="clearfix"></div>
+</nav>
+</section>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="搜索">
+    <input type="hidden" name="q" value="site:yaofeng.org">
+  </form>
+</div>
+
+  
+<div class="widget tag">
+  <h3 class="title">分类</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/BlogPlan/">BlogPlan</a><small>1</small></li>
+  
+    <li><a href="/categories/NET/">NET</a><small>1</small></li>
+  
+    <li><a href="/categories/flask/">flask</a><small>1</small></li>
+  
+    <li><a href="/categories/hexo/">hexo</a><small>1</small></li>
+  
+    <li><a href="/categories/javascript/">javascript</a><small>1</small></li>
+  
+    <li><a href="/categories/flask/jinja2/">jinja2</a><small>1</small></li>
+  
+    <li><a href="/categories/mysql/">mysql</a><small>1</small></li>
+  
+    <li><a href="/categories/ng-admin/">ng-admin</a><small>1</small></li>
+  
+    <li><a href="/categories/python/">python</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tagcloud">
+  <h3 class="title">标签云</h3>
+  <div class="entry">
+    <a href="/tags/DNS/" style="font-size: 10px;">DNS</a> <a href="/tags/Flask-SQLAlchemy/" style="font-size: 10px;">Flask-SQLAlchemy</a> <a href="/tags/angularjs/" style="font-size: 10px;">angularjs</a> <a href="/tags/flask/" style="font-size: 10px;">flask</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/jinja2/" style="font-size: 10px;">jinja2</a> <a href="/tags/js/" style="font-size: 10px;">js</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/ng-admin/" style="font-size: 10px;">ng-admin</a> <a href="/tags/ssh/" style="font-size: 10px;">ssh</a> <a href="/tags/博客计划/" style="font-size: 10px;">博客计划</a>
+  </div>
+</div>
+
+
+  <div class="widget tag">
+<h3 class="title">友情链接</h3>
+<ul class="entry">
+<li><a href="" title="coolshell">酷壳</a><li>
+<li><a href="http://zipperary.com/" title="Zippera's Blog">Zippera的博客</a></li>
+<li><a href="http://ystyle.top">东方星痕</a></li>
+</ul>
+</div>
+
+  <div class="widget tag">
+<h3 class="title">简介</h3>
+<ul class="entry">
+<li>名字：冯尧</li>
+<li>网名：yaoelvon</li>
+<li>现状：魔都程序员，Python和JS</li>
+<li>邮箱：yaoelvon@gmail.com</li>
+<li><a href="http://www.cnblogs.com/yaoel/">博客园</a></li>
+<li><a href="http://blog.csdn.net/persistvonyao">CSDN</a></li>
+</ul>
+</div>
+
+
+
+  <iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=5&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=5735345468&verifier=1d43e686&dpc=1"></iframe>
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="footer-inner">
+    <div class="copyright" >&copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">FengYao</span>
+</div>
+
+<div>
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动 |
+  主题 - <a class="theme-link" href="https://github.com/zippera/lightum">Lightum</a>
+</div>
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span></footer>
+  <script src="//libs.baidu.com/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+<div id="totop" style="position:fixed;bottom:150px;right:50px;cursor: pointer;">
+<a title="返回顶部"><img src="/imgs/scrollup.png"/></a>
+</div>
+<script src="/js/totop.js"></script>
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+</body>
+</html>
+
+
+
+<a href="https://github.com/yaoelvon"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/82b228a3648bf44fc1163ef44c62fcc60081495e/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png"></a>
