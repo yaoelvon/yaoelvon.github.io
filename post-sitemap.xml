@@ -7,6 +7,14 @@
     </url>
 
     <url>
+        <loc>http://yaofeng.org/2017/05/09/flask-migrate-mysql-rename-table-and-rename-field/</loc>
+        <lastmod>2017-05-09T08:16:12.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>http://yaofeng.org/2017/05/09/caddy-introduction/</loc>
         <lastmod>2017-05-09T06:29:40.000Z</lastmod>
         <changefreq>weekly</changefreq>

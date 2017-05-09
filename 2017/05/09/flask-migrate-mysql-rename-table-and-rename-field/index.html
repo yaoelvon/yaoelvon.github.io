@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>第 2 页 | 归档 | 技术洞见</title>
+  <title>技术洞见</title>
   <meta name="author" content="冯尧">
   
   <meta name="description" content="冯尧的博客，yaoel.com, 冯尧, fengyao">
@@ -49,7 +49,7 @@
 
   <link rel="canonical" href=" { { site.url } }{ { page.url } }" />
 
-  <link rel="canonical" href="">
+  <link rel="canonical" href="http://yaofeng.org/2017/05/09/flask-migrate-mysql-rename-table-and-rename-field/">
 
   <meta name="google-site-verification" content="kh_sB30WwfjtDbuLlr6BFEWJecFKCcNU2m27xSVvtao" />
   <meta name="baidu-site-verification" content="KPpYrWskhS" />
@@ -230,73 +230,89 @@
 <div class="clearfix"></div>
 </header>
   <div id="content" class="inner">
-    <div id="main-col" class="alignleft"><div id="wrapper">
-<h2 class="archive-title">归档</h2>
-
-
-  <div class="archive">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
     
-      <article class="post">
-        <div class="post-content">
-          <header>
-            <div class="icon"></div>
-            <time datetime="2016-08-06T08:25:25.000Z"><a href="/2016/08/06/custom-headers-of-request-at-AngularJS/">2016-08-06</a></time>
-            
-              <h1 class="title"><a href="/2016/08/06/custom-headers-of-request-at-AngularJS/">使用angularjs时,如何配置所有的$http requests的headers,增加自定义信息?</a></h1>
-            
-          </header>
-        </div>
-      </article>
-    
-      <article class="post">
-        <div class="post-content">
-          <header>
-            <div class="icon"></div>
-            <time datetime="2016-07-17T08:05:20.000Z"><a href="/2016/07/17/Introduction-to-DNS-principle/">2016-07-17</a></time>
-            
-              <h1 class="title"><a href="/2016/07/17/Introduction-to-DNS-principle/">DNS原理入门</a></h1>
-            
-          </header>
-        </div>
-      </article>
-    
-      <article class="post">
-        <div class="post-content">
-          <header>
-            <div class="icon"></div>
-            <time datetime="2016-06-22T15:04:19.000Z"><a href="/2016/06/22/how-to-use-flash-to-prompt-in-the-flash-jinja2/">2016-06-22</a></time>
-            
-              <h1 class="title"><a href="/2016/06/22/how-to-use-flash-to-prompt-in-the-flash-jinja2/">在flask中如何使用jinja2中的Flash来进行提示</a></h1>
-            
-          </header>
-        </div>
-      </article>
-    
-      <article class="post">
-        <div class="post-content">
-          <header>
-            <div class="icon"></div>
-            <time datetime="2016-06-05T02:16:29.000Z"><a href="/2016/06/05/Flask-SQLALchemy-dynamic-filter-by-and-filter/">2016-06-05</a></time>
-            
-              <h1 class="title"><a href="/2016/06/05/Flask-SQLALchemy-dynamic-filter-by-and-filter/">Flask-SQLALchemy动态的filter_by和filter</a></h1>
-            
-          </header>
-        </div>
-      </article>
-    
-      <article class="post">
-        <div class="post-content">
-          <header>
-            <div class="icon"></div>
-            <time datetime="2016-04-10T15:05:07.000Z"><a href="/2016/04/10/use-git-ssh-key-carry-hexo-deploy/">2016-04-10</a></time>
-            
-              <h1 class="title"><a href="/2016/04/10/use-git-ssh-key-carry-hexo-deploy/">使用Github SSH Key来避免Hexo部署时输入账户密码</a></h1>
-            
-          </header>
-        </div>
-      </article>
+      <img src="">
     
   </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2017-05-09T08:16:12.000Z"><a href="/2017/05/09/flask-migrate-mysql-rename-table-and-rename-field/">2017-05-09</a></time>
+      
+      
+  
+    <h1 class="title"></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h1 id="使用flask-migratealembic实现mysql表名修改-字段名修改和枚举类型修改"><a href="#使用Flask-Migrate（alembic）实现MySQL表名修改、字段名修改和枚举类型修改" class="headerlink" title="使用Flask-Migrate（alembic）实现MySQL表名修改、字段名修改和枚举类型修改"></a>使用Flask-Migrate（alembic）实现MySQL表名修改、字段名修改和枚举类型修改</h1><blockquote>
+<ul>
+<li>表名修改</li>
+<li>字段名修改</li>
+<li>枚举类型增加枚举可选值</li>
+</ul>
+</blockquote>
+<h2 id="表名修改"><a href="#表名修改" class="headerlink" title="表名修改"></a>表名修改</h2><p>由于之前创建的MySQL数据表名跟实际用处不符，所以需要修改表名，并保证数据不丢失。<br>若直接修改表名，然后使用命令<figure class="highlight python"><figcaption><span>manage.py db migrate```会删除后新建，导致数据丢失。为了保证数据不丢失，可以自己使用alembic语法编写升级脚本。语法如下：</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">```</div><div class="line">op.rename_table(<span class="string">'shop_print_rules'</span>, <span class="string">'label_print_rules'</span>)</div></pre></td></tr></table></figure></p>
+<h2 id="字段名修改"><a href="#字段名修改" class="headerlink" title="字段名修改"></a>字段名修改</h2><p>由于字段名名不副实，所以要对字段名进修改，并保证数据不丢失。<br>若字节修改字段名，然后使用命令<figure class="highlight python"><figcaption><span>manage.py db migrate```会删除后新建，导致数据丢失。使用下列语法可以保证数据不丢失，但需要自己编写升级脚本。语法如下：</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">```</div><div class="line">op.alter_column(<span class="string">'label_print_rules'</span>, <span class="string">'box_template_type'</span>, new_column_name=<span class="string">'template_type'</span>,</div><div class="line">                existing_type=sa.Enum(<span class="string">'single_box'</span>, <span class="string">'all_box'</span>, <span class="string">'pick'</span>, <span class="string">'putaway'</span>,</div><div class="line">                                      <span class="string">'stockin'</span>, <span class="string">'stockout'</span>, <span class="string">'delivery'</span>)</div><div class="line">                server_default=<span class="string">'single_box'</span>)</div></pre></td></tr></table></figure></p>
+<h2 id="枚举类型字段增加枚举可选值"><a href="#枚举类型字段增加枚举可选值" class="headerlink" title="枚举类型字段增加枚举可选值"></a>枚举类型字段增加枚举可选值</h2><p>当对枚举类型字段增加枚举可选值时，使用Flask-Migrate进行migrate不会检测到改动，所以需要手动写脚本。语法如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">op.alter_column(&apos;label_print_rules&apos;, &apos;template_type&apos;, </div><div class="line">                existing_type=sa.Enum(&apos;single_box&apos;, &apos;all_box&apos;, &apos;pick&apos;, &apos;putaway&apos;,</div><div class="line">                                      &apos;stockin&apos;, &apos;stockout&apos;, &apos;delivery&apos;),</div><div class="line">                type_=sa.Enum(&apos;single_box&apos;, &apos;all_box&apos;, &apos;pick&apos;, &apos;putaway&apos;,</div><div class="line">                              &apos;stockin&apos;, &apos;stockout&apos;, &apos;delivery&apos;, &apos;single_picking_label&apos;,</div><div class="line">                              &apos;multi_picking_label&apos;, &apos;order_picking_label&apos;),</div><div class="line">                server_default=&apos;single_box&apos;)</div></pre></td></tr></table></figure></p>
+<p>作者 <a href="http://yaoel.com" target="_blank" rel="external">@yaoel</a><br>2017 年 05月 09日 </p>
+<p>参考：<br>1.<a href="http://nullege.com/codes/search/alembic.op.rename_table" target="_blank" rel="external">alembic.op.rename_table</a><br>2.<a href="http://www.crifan.com/flask_migrate_upgrade_mysql_rename_not_remove_column/" target="_blank" rel="external">Flask-Migrate升级MySQL字段时能否重命名而非删除后新建</a></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+<section id="comment">
+
+<!-- 多说评论框 start -->
+    <div class="ds-thread" data-thread-key=0 data-title=0 data-url=0></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"ipyjs"};
+    (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+    </script>
+<!-- 多说公共JS代码 end -->
+ <nav id="pagination" >
+    
+    
+    <a href="/2017/05/09/caddy-introduction/" class="alignright next" >下一页</a>
+    
+    <div class="clearfix"></div>
+</nav>
+</section>
+
+
 </div></div>
     <aside id="sidebar" class="alignright">
   <div class="search">
