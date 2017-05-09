@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>第 2 页 | 归档 | 技术洞见</title>
+  <title>技术洞见</title>
   <meta name="author" content="冯尧">
   
   <meta name="description" content="冯尧的博客，yaoel.com, 冯尧, fengyao">
@@ -49,7 +49,7 @@
 
   <link rel="canonical" href=" { { site.url } }{ { page.url } }" />
 
-  <link rel="canonical" href="">
+  <link rel="canonical" href="http://yaofeng.org/2017/05/09/caddy-introduction/">
 
   <meta name="google-site-verification" content="kh_sB30WwfjtDbuLlr6BFEWJecFKCcNU2m27xSVvtao" />
   <meta name="baidu-site-verification" content="KPpYrWskhS" />
@@ -230,73 +230,102 @@
 <div class="clearfix"></div>
 </header>
   <div id="content" class="inner">
-    <div id="main-col" class="alignleft"><div id="wrapper">
-<h2 class="archive-title">归档</h2>
-
-
-  <div class="archive">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
     
-      <article class="post">
-        <div class="post-content">
-          <header>
-            <div class="icon"></div>
-            <time datetime="2016-07-17T08:05:20.000Z"><a href="/2016/07/17/Introduction-to-DNS-principle/">2016-07-17</a></time>
-            
-              <h1 class="title"><a href="/2016/07/17/Introduction-to-DNS-principle/">DNS原理入门</a></h1>
-            
-          </header>
-        </div>
-      </article>
-    
-      <article class="post">
-        <div class="post-content">
-          <header>
-            <div class="icon"></div>
-            <time datetime="2016-06-22T15:04:19.000Z"><a href="/2016/06/22/how-to-use-flash-to-prompt-in-the-flash-jinja2/">2016-06-22</a></time>
-            
-              <h1 class="title"><a href="/2016/06/22/how-to-use-flash-to-prompt-in-the-flash-jinja2/">在flask中如何使用jinja2中的Flash来进行提示</a></h1>
-            
-          </header>
-        </div>
-      </article>
-    
-      <article class="post">
-        <div class="post-content">
-          <header>
-            <div class="icon"></div>
-            <time datetime="2016-06-05T02:16:29.000Z"><a href="/2016/06/05/Flask-SQLALchemy-dynamic-filter-by-and-filter/">2016-06-05</a></time>
-            
-              <h1 class="title"><a href="/2016/06/05/Flask-SQLALchemy-dynamic-filter-by-and-filter/">Flask-SQLALchemy动态的filter_by和filter</a></h1>
-            
-          </header>
-        </div>
-      </article>
-    
-      <article class="post">
-        <div class="post-content">
-          <header>
-            <div class="icon"></div>
-            <time datetime="2016-04-10T15:05:07.000Z"><a href="/2016/04/10/use-git-ssh-key-carry-hexo-deploy/">2016-04-10</a></time>
-            
-              <h1 class="title"><a href="/2016/04/10/use-git-ssh-key-carry-hexo-deploy/">使用Github SSH Key来避免Hexo部署时输入账户密码</a></h1>
-            
-          </header>
-        </div>
-      </article>
-    
-      <article class="post">
-        <div class="post-content">
-          <header>
-            <div class="icon"></div>
-            <time datetime="2016-04-03T09:52:22.000Z"><a href="/2016/04/03/my-blog-plan/">2016-04-03</a></time>
-            
-              <h1 class="title"><a href="/2016/04/03/my-blog-plan/">个人博客计划</a></h1>
-            
-          </header>
-        </div>
-      </article>
+      <img src="">
     
   </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2017-05-09T06:29:40.000Z"><a href="/2017/05/09/caddy-introduction/">2017-05-09</a></time>
+      
+      
+  
+    <h1 class="title"></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h1 id="caddy简介"><a href="#caddy简介" class="headerlink" title="caddy简介"></a>caddy简介</h1><p>什么是caddy？一个类似Nginx的东西。<br>最近在折腾将部署在github上的hexo博客迁移到自己的服务器上。偶然间知道了caddy这个神器，<strong>真的是一键部署博客</strong>。<br>由于服务器是ubuntu 16.04版本的，下面是基于此版本进行的。</p>
+<p>caddy的好处：</p>
+<blockquote>
+<ul>
+<li>一键启动</li>
+<li>一键https</li>
+<li>各种方便的配置</li>
+</ul>
+</blockquote>
+<h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><p>到<a href="https://caddyserver.com/download" target="_blank" rel="external">caddy官网下载页面</a>下载对应版本。然后使用scp将压缩文件拷贝到自己服务器。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">scp ./caddy*.tar.gz  root@xx.xx.xx.xx:/path/to/place/caddy***.tar.gz</div></pre></td></tr></table></figure>
+<p>##解压，然后将可执行文件拷贝在对应bin目录下（全局可运行）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">tar -xzf caddy*.tar.gz caddy</div><div class="line">mv ./caddy /usr/local/bin</div></pre></td></tr></table></figure>
+<h2 id="进入你的博客目录运行"><a href="#进入你的博客目录运行" class="headerlink" title="进入你的博客目录运行"></a>进入你的博客目录运行</h2><p>注意要有index.html文件，如果没有回报错</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">cd /your/blog/path</div><div class="line">caddy</div></pre></td></tr></table></figure>
+<p>然后在服务器的2015端口就可访问博客。</p>
+<p>##配置域名</p>
+<p>1.要讲yaofeng.org域名解析到对应服务器的ip地址；2.在此过程中会提示为你自动设置https，但是需要你输入此域名拥有者的登记邮箱。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">caddy -host yaofeng.org</div></pre></td></tr></table></figure>
+<p>看到<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Activating privacy features... done.</div><div class="line">https://yaofeng.org</div><div class="line">http://yaofeng.org</div></pre></td></tr></table></figure></p>
+<p>表示https设置成功。</p>
+<h2 id="caddyfile"><a href="#Caddyfile" class="headerlink" title="Caddyfile"></a>Caddyfile</h2><p>为了方便配置，可以将所有的配置信息都写入Caddyfile文件<br>可以通过<figure class="highlight plain"><figcaption><span>"yaofeng.org" > Caddyfile```达到上述一样的效果。</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">在运行caddy命令时，也可以通过-conf参数设置对应Caddyfile配置文件的所在目录：```caddy -conf ../path/to/Caddyfile</div></pre></td></tr></table></figure></p>
+<p>也可以在一个Caddyfile中设置多个域名的解析</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">yaofeng.org &#123;</div><div class="line">        root    /www/yaofeng.org</div><div class="line">&#125;</div><div class="line"></div><div class="line">sub.yaofeng.org &#123;</div><div class="line">        root    /www/sub.yaofeng.org</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>over</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+<section id="comment">
+
+<!-- 多说评论框 start -->
+    <div class="ds-thread" data-thread-key=0 data-title=0 data-url=0></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"ipyjs"};
+    (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+    </script>
+<!-- 多说公共JS代码 end -->
+ <nav id="pagination" >
+    
+    
+    <a href="/2017/05/04/docker-run-raise-exception-permission-denied/" class="alignright next" >下一页</a>
+    
+    <div class="clearfix"></div>
+</nav>
+</section>
+
+
 </div></div>
     <aside id="sidebar" class="alignright">
   <div class="search">

@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yaofeng.org/"/>
-  <updated>2017-05-07T08:36:31.000Z</updated>
+  <updated>2017-05-09T06:29:40.000Z</updated>
   <id>http://yaofeng.org/</id>
   
   <author>
@@ -14,6 +14,49 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title></title>
+    <link href="http://yaofeng.org/2017/05/09/caddy-introduction/"/>
+    <id>http://yaofeng.org/2017/05/09/caddy-introduction/</id>
+    <published>2017-05-09T06:29:40.000Z</published>
+    <updated>2017-05-09T06:29:40.000Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="caddy简介"><a href="#caddy简介" class="headerlink" title="caddy简介"></a>caddy简介</h1><p>什么是caddy？一个类似Nginx的东西。<br>最近在折腾将部署在github上的hexo博客迁移到自己的服务器上。偶然间知道了caddy这个神器，<strong>真的是一键部署博客</strong>。<br>由于服务器是ubuntu 16.04版本的，下面是基于此版本进行的。</p>
+<p>caddy的好处：</p>
+<blockquote>
+<ul>
+<li>一键启动</li>
+<li>一键https</li>
+<li>各种方便的配置</li>
+</ul>
+</blockquote>
+<h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><p>到<a href="https://caddyserver.com/download" target="_blank" rel="external">caddy官网下载页面</a>下载对应版本。然后使用scp将压缩文件拷贝到自己服务器。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">scp ./caddy*.tar.gz  root@xx.xx.xx.xx:/path/to/place/caddy***.tar.gz</div></pre></td></tr></table></figure>
+<p>##解压，然后将可执行文件拷贝在对应bin目录下（全局可运行）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">tar -xzf caddy*.tar.gz caddy</div><div class="line">mv ./caddy /usr/local/bin</div></pre></td></tr></table></figure>
+<h2 id="进入你的博客目录运行"><a href="#进入你的博客目录运行" class="headerlink" title="进入你的博客目录运行"></a>进入你的博客目录运行</h2><p>注意要有index.html文件，如果没有回报错</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">cd /your/blog/path</div><div class="line">caddy</div></pre></td></tr></table></figure>
+<p>然后在服务器的2015端口就可访问博客。</p>
+<p>##配置域名</p>
+<p>1.要讲yaofeng.org域名解析到对应服务器的ip地址；2.在此过程中会提示为你自动设置https，但是需要你输入此域名拥有者的登记邮箱。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">caddy -host yaofeng.org</div></pre></td></tr></table></figure>
+<p>看到<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Activating privacy features... done.</div><div class="line">https://yaofeng.org</div><div class="line">http://yaofeng.org</div></pre></td></tr></table></figure></p>
+<p>表示https设置成功。</p>
+<h2 id="caddyfile"><a href="#Caddyfile" class="headerlink" title="Caddyfile"></a>Caddyfile</h2><p>为了方便配置，可以将所有的配置信息都写入Caddyfile文件<br>可以通过<figure class="highlight plain"><figcaption><span>"yaofeng.org" > Caddyfile```达到上述一样的效果。</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">在运行caddy命令时，也可以通过-conf参数设置对应Caddyfile配置文件的所在目录：```caddy -conf ../path/to/Caddyfile</div></pre></td></tr></table></figure></p>
+<p>也可以在一个Caddyfile中设置多个域名的解析</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">yaofeng.org &#123;</div><div class="line">        root    /www/yaofeng.org</div><div class="line">&#125;</div><div class="line"></div><div class="line">sub.yaofeng.org &#123;</div><div class="line">        root    /www/sub.yaofeng.org</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>over</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;caddy简介&quot;&gt;&lt;a href=&quot;#caddy简介&quot; class=&quot;headerlink&quot; title=&quot;caddy简介&quot;&gt;&lt;/a&gt;caddy简介&lt;/h1&gt;&lt;p&gt;什么是caddy？一个类似Nginx的东西。&lt;br&gt;最近在折腾将部署在github上的hexo博客迁
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>docker启动镜像时，运行可执行文件报&quot;permission denied&quot;</title>
