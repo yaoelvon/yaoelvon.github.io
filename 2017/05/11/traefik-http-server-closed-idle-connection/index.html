@@ -248,7 +248,7 @@
     <header>
       
         <div class="icon"></div>
-        <time datetime="2017-05-11T08:07:59.000Z"><a href="/2017/05/11/traefik-http-server-closed-idle-connection/">2017-05-11</a></time>
+        <time datetime="2017-05-11T08:19:18.000Z"><a href="/2017/05/11/traefik-http-server-closed-idle-connection/">2017-05-11</a></time>
       
       
   
@@ -258,7 +258,7 @@
     </header>
     <div class="entry">
       
-        <h1 id="关于traefikbaohttp-server-closed-idle-connection问题的分析和解决"><a href="#关于traefikbao：http-server-closed-idle-connection问题的分析和解决" class="headerlink" title="关于traefikbao：http: server closed idle connection问题的分析和解决"></a>关于traefikbao：http: server closed idle connection问题的分析和解决</h1><h2 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h2><p>软件新版本上线后，系统经常时不时的出现<strong>500 Internal Server Error</strong>和<strong>502</strong>问题。</p>
+        <h1 id="关于traefik报http-server-closed-idle-connection问题的分析和解决"><a href="#关于traefik报：http-server-closed-idle-connection问题的分析和解决" class="headerlink" title="关于traefik报：http: server closed idle connection问题的分析和解决"></a>关于traefik报：http: server closed idle connection问题的分析和解决</h1><h2 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h2><p>软件新版本上线后，系统经常时不时的出现<strong>500 Internal Server Error</strong>和<strong>502</strong>问题。</p>
 <h2 id="探查"><a href="#探查" class="headerlink" title="探查"></a>探查</h2><p>下面是软件的大体架构<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SLB&lt;----&gt;traefik&lt;---&gt;uwsgi&lt;----&gt;web server</div></pre></td></tr></table></figure></p>
 <p>请求从浏览器客户端发起，先到负载均衡，然后负载均衡转发到traefik，traefik再转发到具体的服务器某个端口；服务器端口后面是实际的web服务，当然，先通过uwsgi层再进入web server。<br>当出现<strong>500 Internal Server Error</strong>时，去查看具体的请求，发现三个蛛丝马迹：</p>
 <blockquote>
