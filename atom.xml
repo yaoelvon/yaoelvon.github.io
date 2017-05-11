@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yaofeng.org/"/>
-  <updated>2017-05-11T08:19:18.000Z</updated>
+  <updated>2017-05-11T15:14:21.000Z</updated>
   <id>http://yaofeng.org/</id>
   
   <author>
@@ -14,6 +14,37 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title></title>
+    <link href="http://yaofeng.org/2017/05/11/flask-migrate-mysql-rename-table-and-rename-field/"/>
+    <id>http://yaofeng.org/2017/05/11/flask-migrate-mysql-rename-table-and-rename-field/</id>
+    <published>2017-05-11T15:14:21.000Z</published>
+    <updated>2017-05-11T15:14:21.000Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="使用flask-migratealembic实现mysql表名修改-字段名修改和枚举类型修改"><a href="#使用Flask-Migrate（alembic）实现MySQL表名修改、字段名修改和枚举类型修改" class="headerlink" title="使用Flask-Migrate（alembic）实现MySQL表名修改、字段名修改和枚举类型修改"></a>使用Flask-Migrate（alembic）实现MySQL表名修改、字段名修改和枚举类型修改</h1><blockquote>
+<ul>
+<li>表名修改</li>
+<li>字段名修改</li>
+<li>枚举类型增加枚举可选值</li>
+</ul>
+</blockquote>
+<h2 id="表名修改"><a href="#表名修改" class="headerlink" title="表名修改"></a>表名修改</h2><p>由于之前创建的MySQL数据表名跟实际用处不符，所以需要修改表名，并保证数据不丢失。<br>若直接修改表名，然后使用命令<figure class="highlight python"><figcaption><span>manage.py db migrate```会删除后新建，导致数据丢失。为了保证数据不丢失，可以自己使用alembic语法编写升级脚本。语法如下：</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"></div></pre></td></tr></table></figure></p>
+<p>op.rename_table(‘shop_print_rules’, ‘label_print_rules’)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"></div><div class="line">## 字段名修改</div><div class="line">由于字段名名不副实，所以要对字段名进修改，并保证数据不丢失。</div><div class="line">若字节修改字段名，然后使用命令```python manage.py db migrate```会删除后新建，导致数据丢失。使用下列语法可以保证数据不丢失，但需要自己编写升级脚本。语法如下：</div></pre></td></tr></table></figure></p>
+<p>op.alter_column(‘label_print_rules’, ‘box_template_type’, new_column_name=’template_type’,<br>                existing_type=sa.Enum(‘single_box’, ‘all_box’, ‘pick’, ‘putaway’,<br>                                      ‘stockin’, ‘stockout’, ‘delivery’)<br>                server_default=’single_box’)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">## 枚举类型字段增加枚举可选值</div><div class="line">当对枚举类型字段增加枚举可选值时，使用Flask-Migrate进行migrate不会检测到改动，所以需要手动写脚本。语法如下：</div></pre></td></tr></table></figure></p>
+<p>op.alter_column(‘label_print_rules’, ‘template_type’,<br>                existing_type=sa.Enum(‘single_box’, ‘all<em>box’, ‘pick’, ‘putaway’,<br>                                      ‘stockin’, ‘stockout’, ‘delivery’),<br>                type</em>=sa.Enum(‘single_box’, ‘all_box’, ‘pick’, ‘putaway’,<br>                              ‘stockin’, ‘stockout’, ‘delivery’, ‘single_picking_label’,<br>                              ‘multi_picking_label’, ‘order_picking_label’),<br>                server_default=’single_box’)<br>```</p>
+<p>作者 <a href="http://yaoel.com" target="_blank" rel="external">@yaoel</a><br>2017 年 05月 09日 </p>
+<p>参考：<br>1.<a href="http://nullege.com/codes/search/alembic.op.rename_table" target="_blank" rel="external">alembic.op.rename_table</a><br>2.<a href="http://www.crifan.com/flask_migrate_upgrade_mysql_rename_not_remove_column/" target="_blank" rel="external">Flask-Migrate升级MySQL字段时能否重命名而非删除后新建</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;使用flask-migratealembic实现mysql表名修改-字段名修改和枚举类型修改&quot;&gt;&lt;a href=&quot;#使用Flask-Migrate（alembic）实现MySQL表名修改、字段名修改和枚举类型修改&quot; class=&quot;headerlink&quot; title
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title></title>
@@ -36,36 +67,6 @@
     <summary type="html">
     
       &lt;h1 id=&quot;关于traefik报http-server-closed-idle-connection问题的分析和解决&quot;&gt;&lt;a href=&quot;#关于traefik报：http-server-closed-idle-connection问题的分析和解决&quot; class=&quot;header
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title></title>
-    <link href="http://yaofeng.org/2017/05/09/flask-migrate-mysql-rename-table-and-rename-field/"/>
-    <id>http://yaofeng.org/2017/05/09/flask-migrate-mysql-rename-table-and-rename-field/</id>
-    <published>2017-05-09T08:16:12.000Z</published>
-    <updated>2017-05-09T08:16:12.000Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="使用flask-migratealembic实现mysql表名修改-字段名修改和枚举类型修改"><a href="#使用Flask-Migrate（alembic）实现MySQL表名修改、字段名修改和枚举类型修改" class="headerlink" title="使用Flask-Migrate（alembic）实现MySQL表名修改、字段名修改和枚举类型修改"></a>使用Flask-Migrate（alembic）实现MySQL表名修改、字段名修改和枚举类型修改</h1><blockquote>
-<ul>
-<li>表名修改</li>
-<li>字段名修改</li>
-<li>枚举类型增加枚举可选值</li>
-</ul>
-</blockquote>
-<h2 id="表名修改"><a href="#表名修改" class="headerlink" title="表名修改"></a>表名修改</h2><p>由于之前创建的MySQL数据表名跟实际用处不符，所以需要修改表名，并保证数据不丢失。<br>若直接修改表名，然后使用命令<figure class="highlight python"><figcaption><span>manage.py db migrate```会删除后新建，导致数据丢失。为了保证数据不丢失，可以自己使用alembic语法编写升级脚本。语法如下：</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">```</div><div class="line">op.rename_table(<span class="string">'shop_print_rules'</span>, <span class="string">'label_print_rules'</span>)</div></pre></td></tr></table></figure></p>
-<h2 id="字段名修改"><a href="#字段名修改" class="headerlink" title="字段名修改"></a>字段名修改</h2><p>由于字段名名不副实，所以要对字段名进修改，并保证数据不丢失。<br>若字节修改字段名，然后使用命令<figure class="highlight python"><figcaption><span>manage.py db migrate```会删除后新建，导致数据丢失。使用下列语法可以保证数据不丢失，但需要自己编写升级脚本。语法如下：</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">```</div><div class="line">op.alter_column(<span class="string">'label_print_rules'</span>, <span class="string">'box_template_type'</span>, new_column_name=<span class="string">'template_type'</span>,</div><div class="line">                existing_type=sa.Enum(<span class="string">'single_box'</span>, <span class="string">'all_box'</span>, <span class="string">'pick'</span>, <span class="string">'putaway'</span>,</div><div class="line">                                      <span class="string">'stockin'</span>, <span class="string">'stockout'</span>, <span class="string">'delivery'</span>)</div><div class="line">                server_default=<span class="string">'single_box'</span>)</div></pre></td></tr></table></figure></p>
-<h2 id="枚举类型字段增加枚举可选值"><a href="#枚举类型字段增加枚举可选值" class="headerlink" title="枚举类型字段增加枚举可选值"></a>枚举类型字段增加枚举可选值</h2><p>当对枚举类型字段增加枚举可选值时，使用Flask-Migrate进行migrate不会检测到改动，所以需要手动写脚本。语法如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">op.alter_column(&apos;label_print_rules&apos;, &apos;template_type&apos;, </div><div class="line">                existing_type=sa.Enum(&apos;single_box&apos;, &apos;all_box&apos;, &apos;pick&apos;, &apos;putaway&apos;,</div><div class="line">                                      &apos;stockin&apos;, &apos;stockout&apos;, &apos;delivery&apos;),</div><div class="line">                type_=sa.Enum(&apos;single_box&apos;, &apos;all_box&apos;, &apos;pick&apos;, &apos;putaway&apos;,</div><div class="line">                              &apos;stockin&apos;, &apos;stockout&apos;, &apos;delivery&apos;, &apos;single_picking_label&apos;,</div><div class="line">                              &apos;multi_picking_label&apos;, &apos;order_picking_label&apos;),</div><div class="line">                server_default=&apos;single_box&apos;)</div></pre></td></tr></table></figure></p>
-<p>作者 <a href="http://yaoel.com" target="_blank" rel="external">@yaoel</a><br>2017 年 05月 09日 </p>
-<p>参考：<br>1.<a href="http://nullege.com/codes/search/alembic.op.rename_table" target="_blank" rel="external">alembic.op.rename_table</a><br>2.<a href="http://www.crifan.com/flask_migrate_upgrade_mysql_rename_not_remove_column/" target="_blank" rel="external">Flask-Migrate升级MySQL字段时能否重命名而非删除后新建</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;使用flask-migratealembic实现mysql表名修改-字段名修改和枚举类型修改&quot;&gt;&lt;a href=&quot;#使用Flask-Migrate（alembic）实现MySQL表名修改、字段名修改和枚举类型修改&quot; class=&quot;headerlink&quot; title
     
     </summary>
     
