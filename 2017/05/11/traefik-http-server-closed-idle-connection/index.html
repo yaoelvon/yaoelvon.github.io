@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>第 3 页 | 技术洞见</title>
+  <title>技术洞见</title>
   <meta name="author" content="冯尧">
   
   <meta name="description" content="冯尧的博客，yaoel.com, 冯尧, fengyao">
@@ -49,7 +49,7 @@
 
   <link rel="canonical" href=" { { site.url } }{ { page.url } }" />
 
-  <link rel="canonical" href="">
+  <link rel="canonical" href="http://yaofeng.org/2017/05/11/traefik-http-server-closed-idle-connection/">
 
   <meta name="google-site-verification" content="kh_sB30WwfjtDbuLlr6BFEWJecFKCcNU2m27xSVvtao" />
   <meta name="baidu-site-verification" content="KPpYrWskhS" />
@@ -230,8 +230,7 @@
 <div class="clearfix"></div>
 </header>
   <div id="content" class="inner">
-    <div id="main-col" class="alignleft"><div id="wrapper">
-  <article class="post">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
   
     <div class="gallery">
   <div class="photoset">
@@ -249,24 +248,25 @@
     <header>
       
         <div class="icon"></div>
-        <time datetime="2016-04-10T15:05:07.000Z"><a href="/2016/04/10/use-git-ssh-key-carry-hexo-deploy/">2016-04-10</a></time>
+        <time datetime="2017-05-11T08:07:59.000Z"><a href="/2017/05/11/traefik-http-server-closed-idle-connection/">2017-05-11</a></time>
       
       
   
-    <h1 class="title"><a href="/2016/04/10/use-git-ssh-key-carry-hexo-deploy/">使用Github SSH Key来避免Hexo部署时输入账户密码</a></h1>
+    <h1 class="title"></h1>
   
 
     </header>
     <div class="entry">
       
-        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>当hexo使用https方式连接Github时，每次执行hexo deploy都会提示你输入账户和密码，不胜其烦。下面使用ssh连接方式可以免除每次输入账户密码的过程，而且安全可靠。如何使用github请看参考2。</p>
-<h1 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h1><p>修改_config.yml，将部署方式从https方式修改为ssh方式。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"># Deployment</div><div class="line">## Docs: https://hexo.io/docs/deployment.html</div><div class="line">deploy:</div><div class="line">  type: git</div><div class="line">  repository: https://github.com/yaoelvon/yaoelvon.github.io.git</div><div class="line">  branch: master</div></pre></td></tr></table></figure></p>
-<p>修改为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"># Deployment</div><div class="line">## Docs: https://hexo.io/docs/deployment.html</div><div class="line">deploy:</div><div class="line">  type: git</div><div class="line">  repository: git@github.com:yaoelvon/yaoelvon.github.io.git</div><div class="line">  branch: master</div></pre></td></tr></table></figure></p>
-<p>参考：</p>
-<ol>
-<li><a href="https://xuanwo.org/2015/02/07/generate-a-ssh-key/" target="_blank" rel="external">使用Github SSH Key以免去Hexo部署时输入密码</a></li>
-<li><a href="https://ggssxx.com/git-ssh.html" target="_blank" rel="external">Git使用ssh协议授权</a></li>
-</ol>
+        <h1 id="关于traefikbaohttp-server-closed-idle-connection问题的分析和解决"><a href="#关于traefikbao：http-server-closed-idle-connection问题的分析和解决" class="headerlink" title="关于traefikbao：http: server closed idle connection问题的分析和解决"></a>关于traefikbao：http: server closed idle connection问题的分析和解决</h1><h2 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h2><p>软件新版本上线后，系统经常时不时的出现<strong>500 Internal Server Error</strong>和<strong>502</strong>问题。</p>
+<h2 id="探查"><a href="#探查" class="headerlink" title="探查"></a>探查</h2><p>下面是软件的大体架构<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SLB&lt;----&gt;traefik&lt;---&gt;uwsgi&lt;----&gt;web server</div></pre></td></tr></table></figure></p>
+<p>请求从浏览器客户端发起，先到负载均衡，然后负载均衡转发到traefik，traefik再转发到具体的服务器某个端口；服务器端口后面是实际的web服务，当然，先通过uwsgi层再进入web server。<br>当出现<strong>500 Internal Server Error</strong>时，去查看具体的请求，发现三个蛛丝马迹：</p>
+<blockquote>
+<p>1.客户端同时发送了多个相同请求；<br>2.在web server的日志中看不到对应的请求报文；<br>3.traefik日志中出现：<figure class="highlight plain"><figcaption><span>level=warning msg="Error forwarding to</span><a href="http://xx.xx.xx.xx:8888," target="_blank" rel="external">err: http: server closed idle connection”```错误；</a></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&gt; 4.所有request headers和response headers中都带有```Connection: keep-alive```；</div><div class="line"></div><div class="line">## 分析</div><div class="line">1.请求在traefik和uwsgi之间中断了；</div><div class="line">2.跟http的长连接有关系；</div><div class="line"></div><div class="line">## 解决</div><div class="line">对于相同请求，第一个请求过来，带了```Connection:keep-alive```头，traefik认为跟uwsgi建立了长连接通道，但由于uwsgi没有支持长连接，在返回后就将连接关闭。单相同的第二个请求过来时，traefik还是使用之前的通道，而此时uwsgi已经关闭了连接，所以报错：```http: server closed idle connection```。</div><div class="line"></div><div class="line">再来看系统中uwsgi.ini：</div></pre></td></tr></table></figure></p>
+</blockquote>
+<p>[uwsgi]<br>……<br>http-socket = 0.0.0.0:5000<br>http-keepalive = 1<br>add-header=Connection: Keep-Alive<br>……<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">虽然看上去设置了http-keepalive，但是由于http-socket不支持keep-alive，所以无用。</div><div class="line">正确的配置方式如下：</div></pre></td></tr></table></figure></p>
+<p>[uwsgi]<br>……<br>http = 0.0.0.0:5000<br>http-keepalive = 1<br>add-header=Connection: Keep-Alive<br>……<br>```<br>作者 <a href="http://yaoel.com/" target="_blank" rel="external">@yaoel</a><br>2017 年 05月 11日</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>1.<a href="https://github.com/containous/traefik/issues/615" target="_blank" rel="external">Traefik sporadically failing when proxying requests</a><br>2.<a href="http://uwsgi-docs.readthedocs.io/en/latest/Options.html?highlight=keep-alive" target="_blank" rel="external">uWSGI Options</a><br>3.<a href="https://www.amazon.cn/HTTP%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97-%E5%90%89%E5%B0%94%E5%88%A9/dp/B008XFDQ14/ref=sr_1_1?ie=UTF8&amp;qid=1494485238&amp;sr=8-1&amp;keywords=HTTP%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97" target="_blank" rel="external">HTTP权威指南 4.5.6 Keep–Alive和哑代理</a><br>4.<a href="https://github.com/unbit/uwsgi/issues/1097" target="_blank" rel="external">http-socket does not support Keep-Alive</a><br>5.<a href="https://github.com/changecoin/changetip-slack/blob/master/uwsgi.ini" target="_blank" rel="external">uwsgi.ini配置参考</a></p>
 
       
     </div>
@@ -282,120 +282,35 @@
 
 
 
+<section id="comment">
 
-
-
-  <article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
+<!-- 多说评论框 start -->
+    <div class="ds-thread" data-thread-key=0 data-title=0 data-url=0></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"ipyjs"};
+    (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+    </script>
+<!-- 多说公共JS代码 end -->
+ <nav id="pagination" >
     
-      <img src="">
     
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2016-04-03T09:52:22.000Z"><a href="/2016/04/03/my-blog-plan/">2016-04-03</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2016/04/03/my-blog-plan/">个人博客计划</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <hr>
-<p>从去年3月份开始，我就有了建设个人技术博客的想法。那时候，我是一个linux C嵌入式程序员。现在，已经成了一个初级全栈WEB程序员。不仅能用AngularJS写点前端代码，而且能用Python的Flask框架编写后端服务器代码。虽然现在我自认为还是一个菜鸟，但是为了成为技术大牛的梦想，我选择自己搭建一个技术博客。<br>在建设个人技术博客的过程中，需要考虑两件事：</p>
-<blockquote>
-<ul>
-<li>选择什么样的域名？</li>
-<li>博客用什么方式搭建？</li>
-</ul>
-</blockquote>
-<hr>
-<h2 id="选择什么样的域名"><a href="#选择什么样的域名" class="headerlink" title="选择什么样的域名"></a>选择什么样的域名</h2><p>在选择域名方面，我相信很多人都纠结过。当然，我也是。刚开始我是想以自己名字的拼音注册域名的，但是fengyao.com和fengyao.cn都已经被注册了。然后就选择了我的网名，所以注册了yaoelvon.com。后来又觉得不好记。所以在不到一个月内，我注册了4个域名，分别是：yaoelvon.com、lessb.com、ipyjs.com和vincent.net.cn。下面是各个域名的优缺点。</p>
-<blockquote>
-<ul>
-<li>yaoelvon 优点：我的网名、github账号、gmail账号；缺点：难记</li>
-<li>lessb 优点：好记，可解释为lessbutbetter；缺点：sb</li>
-<li>ipyjs 优点：爱python javascript 缺点：面窄</li>
-<li>vincent 优点：好记，英文名，冯申特 缺点：以.net.cn结尾</li>
-</ul>
-<p>对于域名，我leader的建议是：重内容，轻域名。我网名注册的域名就挺好的。做公司才会对域名比较看重。我深以为然，但还是注册了好多域名。留着以后用吧。</p>
-<p>另外可选的域名有：fengyao.me, 注册fengyao.me并使用。</p>
-<p>2016/10/04 更换本博客的域名为yaofeng.org，并改名为【冯尧的博客】。<br>2016/10/04 更换本博客的域名为yaoel.com。</p>
-</blockquote>
-<hr>
-<h2 id="博客用什么方式搭建"><a href="#博客用什么方式搭建" class="headerlink" title="博客用什么方式搭建"></a>博客用什么方式搭建</h2><p>据我所知，可以使用wordpress、jekll、hexo等方式建立博客。我没有使用过wordpress，所以不予评价。尝试过jekll，觉得不太好用。后来发现hexo挺好用的，而且zippera的博文写的很好，折腾了几次后，终于使用hexo将自己的博客搭建起来了。然而，使用hexo只是我搭建博客的第一步。我会逐渐对博客进行修改和重建。<br>按照个人想法，最终决定将博客的建设分成4个阶段进行，这四个阶段都有代号，分别是：<strong>Monkey</strong>、<strong>Horse</strong>、<strong>Lion</strong>和<strong>Ape</strong>。<br>下面是粗劣的设计方向：</p>
-<p><strong>step1: Monkey</strong><br>Monkey，意思是猴子，特点：灵巧。<br>技术：使用hexo来实现，上线快，部署快，容易上手。<br>参考：主要参考了Zippera的博文,在此对他表示感谢。</p>
-<p><strong>step2: Horse</strong><br>Horse，意思是马，特点：健壮。<br>技术：使用Flask和Jinja实现，前端和服务器一体。<br>参考：主要参考Flask Web开发。</p>
-<p><strong>step3: Lion</strong><br>Lion，意思是狮子。<br>技术：前端改用AngularJS实现，后端使用Flask。<br>参考：流程大致跟当前做的项目相同，参考当前项目。</p>
-<p><strong>step4: Ape</strong><br>Ape，意思是猿，特点：聪明。（人猿星球出现在了我当前的脑海中）<br>技术：AngularJS2.x或React做前端，后端使用Flask。<br>参考：还没想好，待续。</p>
-<hr>
-<h2 id="时间计划"><a href="#时间计划" class="headerlink" title="时间计划"></a>时间计划</h2><p>下面是粗略的时间计划表：</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">时间</th>
-<th style="text-align:center">代号</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">2016/4/1-2016/5/31</td>
-<td style="text-align:center">Monkey</td>
-</tr>
-<tr>
-<td style="text-align:center">2016/6/1-2016/8/31</td>
-<td style="text-align:center">Horse</td>
-</tr>
-<tr>
-<td style="text-align:center">2016/9/1-2016/12/31</td>
-<td style="text-align:center">Lion</td>
-</tr>
-<tr>
-<td style="text-align:center">2017/1/1-2017/??/??</td>
-<td style="text-align:center">Ape</td>
-</tr>
-</tbody>
-</table>
-<p>详细的计划会在独立的博文中出现。</p>
-<p>fengyao</p>
-
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
+    <a href="/2017/05/09/flask-migrate-mysql-rename-table-and-rename-field/" class="alignright next" >下一页</a>
+    
+    <div class="clearfix"></div>
+</nav>
+</section>
 
 
-
-
-
-
-
-<nav id="pagination">
-  
-    <a href="/page/2/" class="alignleft prev">上一页</a>
-  
-  
-  <div class="clearfix"></div>
-</nav></div></div>
+</div></div>
     <aside id="sidebar" class="alignright">
   <div class="search">
   <form action="//google.com/search" method="get" accept-charset="utf-8">

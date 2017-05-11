@@ -249,6 +249,61 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2017-05-11T08:07:59.000Z"><a href="/2017/05/11/traefik-http-server-closed-idle-connection/">2017-05-11</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2017/05/11/traefik-http-server-closed-idle-connection/"></a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h1 id="关于traefikbaohttp-server-closed-idle-connection问题的分析和解决"><a href="#关于traefikbao：http-server-closed-idle-connection问题的分析和解决" class="headerlink" title="关于traefikbao：http: server closed idle connection问题的分析和解决"></a>关于traefikbao：http: server closed idle connection问题的分析和解决</h1><h2 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h2><p>软件新版本上线后，系统经常时不时的出现<strong>500 Internal Server Error</strong>和<strong>502</strong>问题。</p>
+<h2 id="探查"><a href="#探查" class="headerlink" title="探查"></a>探查</h2><p>下面是软件的大体架构<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SLB&lt;----&gt;traefik&lt;---&gt;uwsgi&lt;----&gt;web server</div></pre></td></tr></table></figure></p>
+<p>请求从浏览器客户端发起，先到负载均衡，然后负载均衡转发到traefik，traefik再转发到具体的服务器某个端口；服务器端口后面是实际的web服务，当然，先通过uwsgi层再进入web server。<br>当出现<strong>500 Internal Server Error</strong>时，去查看具体的请求，发现三个蛛丝马迹：</p>
+<blockquote>
+<p>1.客户端同时发送了多个相同请求；<br>2.在web server的日志中看不到对应的请求报文；<br>3.traefik日志中出现：<figure class="highlight plain"><figcaption><span>level=warning msg="Error forwarding to</span><a href="http://xx.xx.xx.xx:8888," target="_blank" rel="external">err: http: server closed idle connection”```错误；</a></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&gt; 4.所有request headers和response headers中都带有```Connection: keep-alive```；</div><div class="line"></div><div class="line">## 分析</div><div class="line">1.请求在traefik和uwsgi之间中断了；</div><div class="line">2.跟http的长连接有关系；</div><div class="line"></div><div class="line">## 解决</div><div class="line">对于相同请求，第一个请求过来，带了```Connection:keep-alive```头，traefik认为跟uwsgi建立了长连接通道，但由于uwsgi没有支持长连接，在返回后就将连接关闭。单相同的第二个请求过来时，traefik还是使用之前的通道，而此时uwsgi已经关闭了连接，所以报错：```http: server closed idle connection```。</div><div class="line"></div><div class="line">再来看系统中uwsgi.ini：</div></pre></td></tr></table></figure></p>
+</blockquote>
+<p>[uwsgi]<br>……<br>http-socket = 0.0.0.0:5000<br>http-keepalive = 1<br>add-header=Connection: Keep-Alive<br>……<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">虽然看上去设置了http-keepalive，但是由于http-socket不支持keep-alive，所以无用。</div><div class="line">正确的配置方式如下：</div></pre></td></tr></table></figure></p>
+<p>[uwsgi]<br>……<br>http = 0.0.0.0:5000<br>http-keepalive = 1<br>add-header=Connection: Keep-Alive<br>……<br>```<br>作者 <a href="http://yaoel.com/" target="_blank" rel="external">@yaoel</a><br>2017 年 05月 11日</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>1.<a href="https://github.com/containous/traefik/issues/615" target="_blank" rel="external">Traefik sporadically failing when proxying requests</a><br>2.<a href="http://uwsgi-docs.readthedocs.io/en/latest/Options.html?highlight=keep-alive" target="_blank" rel="external">uWSGI Options</a><br>3.<a href="https://www.amazon.cn/HTTP%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97-%E5%90%89%E5%B0%94%E5%88%A9/dp/B008XFDQ14/ref=sr_1_1?ie=UTF8&amp;qid=1494485238&amp;sr=8-1&amp;keywords=HTTP%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97" target="_blank" rel="external">HTTP权威指南 4.5.6 Keep–Alive和哑代理</a><br>4.<a href="https://github.com/unbit/uwsgi/issues/1097" target="_blank" rel="external">http-socket does not support Keep-Alive</a><br>5.<a href="https://github.com/changecoin/changetip-slack/blob/master/uwsgi.ini" target="_blank" rel="external">uwsgi.ini配置参考</a></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+
+
+  <article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2017-05-09T08:16:12.000Z"><a href="/2017/05/09/flask-migrate-mysql-rename-table-and-rename-field/">2017-05-09</a></time>
       
       
@@ -483,63 +538,6 @@
 </ul>
 <p>请尽可能多地提供上下文，包括和管理配置的代码段，以及您映射的API的响应。</p>
 <h2 id="贡献contributing"><a href="#贡献（Contributing）" class="headerlink" title="贡献（Contributing）"></a>贡献（Contributing）</h2><p>在您的特定环境中的使用ng-admin的反馈是有价值的，不要犹豫<a href="https://github.com/marmelab/ng-admin/issues" target="_blank" rel="external">打开GitHub的issue</a>提出任何你想问的问题。</p>
-
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-
-
-  <article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2016-09-11T12:21:56.000Z"><a href="/2016/09/11/some-tips-of-MySQL/">2016-09-11</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2016/09/11/some-tips-of-MySQL/">MySQL小贴士</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <h2 id="1创建数据库时一定要设置字符编码格式"><a href="#1-创建数据库时，一定要设置字符编码格式" class="headerlink" title="1.创建数据库时，一定要设置字符编码格式"></a>1.创建数据库时，一定要设置字符编码格式</h2><p>刚开始的使用mysql的小白（比如博主），经常会碰到这样的情况，将中文存入数据库后显示的都是？？，而且长度相同的中文就unique字段就会提示：duplicate（重复了）。WTF？到底发生了什么？<br>以上就是博主从windows平台切到mac后，开始配置mysql环境时碰到的问题。花了几个晚上的时间，搜索stackoverflow等境外网站，在代码中创表时加上各种设置字符集的方法，还有修改电脑的本地配置文件，设置了一堆，愣是没有解决。。<br>后来是被公司的倩神（纯爷么）一语惊醒：你数据库字符集设了没有？。。。。。。。。。我瞬间想到stackoverflow上的一个回答。。就是创建数据库时设置字符集的方法，当时看到了，但也仅仅是看到，就直接忽略过去（也有原因是英文的，没完全懂）。<br>真的想哭，不多说了，上mysql命令。</p>
-<p>（1）如果你是新创建数据库，可以使用一下方式设置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">CREATE DATABASE 数据库名 DEFAULT CHARACTER SET UTF8 DEFAULT COLLATE utf8_general_ci;</div></pre></td></tr></table></figure></p>
-<p>（2）如果你的数据库已经创建了，可以通过修改字符集的方式解决（不推荐，可能会引发不明确的问题）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ALTER DATABASE databasename CHARACTER SET utf8 COLLATE utf8_general_ci;</div></pre></td></tr></table></figure></p>
-<h2 id="2mysql数据库中的数据是可以被dump出来随处恢复的"><a href="#2-mysql数据库中的数据是可以被dump出来，随处恢复的" class="headerlink" title="2.mysql数据库中的数据是可以被dump出来，随处恢复的"></a>2.mysql数据库中的数据是可以被dump出来，随处恢复的</h2><p>就拿我所在的项目组来说吧，如果你要对系统进行流程测试。之前的做法是：初始化初始数据-》使用excel表格导入各种数据到系统中-》然后再开始测试。这样做有三个缺点：1.效率低；2.excel表格需要具有一致性，若某些数据被修改过，会导入失败；3.数据量小，无法完全暴露问题。<br>现在有了dump神器，可以将某些客户的现场数据dump出来（当然，用户数据是不会外泄的，只是测试，只是测试，只是测试），直接在数据库中进行恢复。<br>dump的方法如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">time=$(date +%Y-%m-%dT%H:%M:%S)</div><div class="line">mysqldump -h &lt;服务器地址&gt; -P &lt;端口号&gt; -u &lt;用户名&gt; -p&lt;密码&gt; &lt;数据库名&gt; &gt; $time.dump</div><div class="line">ps:本地可以不填服务器地址，但是端口号要填，默认是3306（如果不填，dump命令会阻塞，ctrl-C 无法退出）</div></pre></td></tr></table></figure></p>
-<p>恢复方法如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mysql -h &lt;服务器地址&gt; -P &lt;端口号&gt;  -u &lt;用户名&gt; -p &lt;数据库名称&gt; &lt; mysql.dump</div></pre></td></tr></table></figure></p>
-<h2 id="3-在mysql中如何复制一行数据同时使用新的id插入到数据库中"><a href="#3-在mysql中如何复制一行数据，同时使用新的id插入到数据库中" class="headerlink" title="3. 在mysql中如何复制一行数据，同时使用新的id插入到数据库中"></a>3. 在mysql中如何复制一行数据，同时使用新的id插入到数据库中</h2><p>具体当时为什么需要这个功能，博主已经忘了，直接上命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">insert into my_table( col1, col2 ) select col1, col2 from my_table where pk_id=?;</div></pre></td></tr></table></figure></p>
-<h2 id="4在mac上python代码连接mysql时提示no-module-named-mysqldb怎么解决"><a href="#4-在mac上，python代码连接MySQL时，提示No-module-named-MySQLdb，怎么解决" class="headerlink" title="4.在mac上，python代码连接MySQL时，提示No module named MySQLdb，怎么解决"></a>4.在mac上，python代码连接MySQL时，提示No module named MySQLdb，怎么解决</h2><p>这个问题，你需要确认两件事。<br>（1）代码中数据库连接的url需要特殊设置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SQLALCHEMY_DATABASE_URI = &apos;mysql+pymysql://.....&apos;</div></pre></td></tr></table></figure></p>
-<p>（2）需要安装python中操作mysql的库<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pip install mysql-python</div></pre></td></tr></table></figure></p>
-<h2 id="5安装mysql571的坑"><a href="#5-安装mysql5-7-1的坑" class="headerlink" title="5.安装mysql5.7.1的坑"></a>5.安装mysql5.7.1的坑</h2><p>5.6以前的MySQL安装后，默认是没有密码的，第一次登录时设置密码。这是博主一贯以为的。但是在mac上安装5.7.1时，遇到了坑。因为新的版本中，密码是安装过程中弹窗告诉我们的。而当时，博主并没有关系什么弹窗，直接没看就关闭了。导致第一次登录一直提示密码错误。<br>后来在网上某个csdn博客中讲到了这一点。然后博主就滚回去重装了。</p>
-<h2 id="6其他一些常用的命令"><a href="#6-其他一些常用的命令" class="headerlink" title="6.其他一些常用的命令"></a>6.其他一些常用的命令</h2><p>查看表的结构：show create table 表名;<br>删除一行特定数据行：delete from 表名 where id = 1;</p>
-<p>参考：<br>1.<a href="http://stackoverflow.com/questions/11331573/mysql-copy-row-but-with-new-id" target="_blank" rel="external">mysql-copy-row-but-with-new-id</a><br>2.<a href="http://stackoverflow.com/questions/454854/no-module-named-mysqldb" target="_blank" rel="external">No module named MySQLdb</a></p>
 
       
     </div>
