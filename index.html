@@ -249,28 +249,30 @@
     <header>
       
         <div class="icon"></div>
-        <time datetime="2017-05-12T01:41:43.000Z"><a href="/2017/05/12/flask-migrate-mysql-rename-table-and-rename-field/">2017-05-12</a></time>
+        <time datetime="2017-05-12T01:41:49.000Z"><a href="/2017/05/12/traefik-http-server-closed-idle-connection/">2017-05-12</a></time>
       
       
   
-    <h1 class="title"><a href="/2017/05/12/flask-migrate-mysql-rename-table-and-rename-field/"></a></h1>
+    <h1 class="title"><a href="/2017/05/12/traefik-http-server-closed-idle-connection/"></a></h1>
   
 
     </header>
     <div class="entry">
       
-        <h1 id="使用flask-migratealembic实现mysql表名修改-字段名修改和枚举类型修改"><a href="#使用Flask-Migrate（alembic）实现MySQL表名修改、字段名修改和枚举类型修改" class="headerlink" title="使用Flask-Migrate（alembic）实现MySQL表名修改、字段名修改和枚举类型修改"></a>使用Flask-Migrate（alembic）实现MySQL表名修改、字段名修改和枚举类型修改</h1><blockquote>
-<ul>
-<li>表名修改</li>
-<li>字段名修改</li>
-<li>枚举类型增加枚举可选值</li>
-</ul>
+        <h1 id="关于traefik报http-server-closed-idle-connection问题的分析和解决"><a href="#关于traefik报：http-server-closed-idle-connection问题的分析和解决" class="headerlink" title="关于traefik报：http: server closed idle connection问题的分析和解决"></a>关于traefik报：http: server closed idle connection问题的分析和解决</h1><h2 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h2><p>软件新版本上线后，系统经常时不时的出现<strong>500 Internal Server Error</strong>和<strong>502</strong>问题。</p>
+<h2 id="探查"><a href="#探查" class="headerlink" title="探查"></a>探查</h2><p>下面是软件的大体架构<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SLB&lt;----&gt;traefik&lt;---&gt;uwsgi&lt;----&gt;web server</div></pre></td></tr></table></figure></p>
+<p>请求从浏览器客户端发起，先到负载均衡，然后负载均衡转发到traefik，traefik再转发到具体的服务器某个端口；服务器端口后面是实际的web服务，当然，先通过uwsgi层再进入web server。<br>当出现<strong>500 Internal Server Error</strong>时，去查看具体的请求，发现三个蛛丝马迹：</p>
+<blockquote>
+<p>1.客户端同时发送了多个相同请求；<br>2.在web server的日志中看不到对应的请求报文；<br>3.traefik日志中出现：<code>time=&quot;2017-03-20T03:43:17Z&quot; level=warning msg=&quot;Error forwarding to http://xx.xx.xx.xx:8888, err: http: server closed idle connection”</code>错误；<br>4.所有request headers和response headers中都带有<code>Connection: keep-alive</code>；</p>
 </blockquote>
-<h2 id="表名修改"><a href="#表名修改" class="headerlink" title="表名修改"></a>表名修改</h2><p>由于之前创建的MySQL数据表名跟实际用处不符，所以需要修改表名，并保证数据不丢失。<br>若直接修改表名，然后使用命令<code>python manage.py db migrate</code>会删除后新建，导致数据丢失。为了保证数据不丢失，可以自己使用alembic语法编写升级脚本。语法如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">op.rename_table(&apos;shop_print_rules&apos;, &apos;label_print_rules&apos;)</div></pre></td></tr></table></figure></p>
-<h2 id="字段名修改"><a href="#字段名修改" class="headerlink" title="字段名修改"></a>字段名修改</h2><p>由于字段名名不副实，所以要对字段名进修改，并保证数据不丢失。<br>若字节修改字段名，然后使用命令<code>python manage.py db migrate</code>会删除后新建，导致数据丢失。使用下列语法可以保证数据不丢失，但需要自己编写升级脚本。语法如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">op.alter_column(&apos;label_print_rules&apos;, &apos;box_template_type&apos;, new_column_name=&apos;template_type&apos;,</div><div class="line">                existing_type=sa.Enum(&apos;single_box&apos;, &apos;all_box&apos;, &apos;pick&apos;, &apos;putaway&apos;,</div><div class="line">                                      &apos;stockin&apos;, &apos;stockout&apos;, &apos;delivery&apos;)</div><div class="line">                server_default=&apos;single_box&apos;)</div></pre></td></tr></table></figure></p>
-<h2 id="枚举类型字段增加枚举可选值"><a href="#枚举类型字段增加枚举可选值" class="headerlink" title="枚举类型字段增加枚举可选值"></a>枚举类型字段增加枚举可选值</h2><p>当对枚举类型字段增加枚举可选值时，使用Flask-Migrate进行migrate不会检测到改动，所以需要手动写脚本。语法如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">op.alter_column(&apos;label_print_rules&apos;, &apos;template_type&apos;, </div><div class="line">                existing_type=sa.Enum(&apos;single_box&apos;, &apos;all_box&apos;, &apos;pick&apos;, &apos;putaway&apos;,</div><div class="line">                                      &apos;stockin&apos;, &apos;stockout&apos;, &apos;delivery&apos;),</div><div class="line">                type_=sa.Enum(&apos;single_box&apos;, &apos;all_box&apos;, &apos;pick&apos;, &apos;putaway&apos;,</div><div class="line">                              &apos;stockin&apos;, &apos;stockout&apos;, &apos;delivery&apos;, &apos;single_picking_label&apos;,</div><div class="line">                              &apos;multi_picking_label&apos;, &apos;order_picking_label&apos;),</div><div class="line">                server_default=&apos;single_box&apos;)</div></pre></td></tr></table></figure></p>
-<p>作者 <a href="http://yaoel.com" target="_blank" rel="external">@yaoel</a><br>2017 年 05月 09日 </p>
-<p>参考：<br>1.<a href="http://nullege.com/codes/search/alembic.op.rename_table" target="_blank" rel="external">alembic.op.rename_table</a><br>2.<a href="http://www.crifan.com/flask_migrate_upgrade_mysql_rename_not_remove_column/" target="_blank" rel="external">Flask-Migrate升级MySQL字段时能否重命名而非删除后新建</a></p>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>1.请求在traefik和uwsgi之间中断了；<br>2.跟http的长连接有关系；</p>
+<h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><p>对于相同请求，第一个请求过来，带了<code>Connection:keep-alive</code>头，traefik认为跟uwsgi建立了长连接通道，但由于uwsgi没有支持长连接，在返回后就将连接关闭。单相同的第二个请求过来时，traefik还是使用之前的通道，而此时uwsgi已经关闭了连接，所以报错：<code>http: server closed idle connection</code>。</p>
+<p>再来看系统中uwsgi.ini：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">[uwsgi]</div><div class="line">......</div><div class="line">http-socket = 0.0.0.0:5000</div><div class="line">http-keepalive = 1</div><div class="line">add-header=Connection: Keep-Alive</div><div class="line">......</div></pre></td></tr></table></figure>
+<p>虽然看上去设置了http-keepalive，但是由于http-socket不支持keep-alive，所以无用。<br>正确的配置方式如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">[uwsgi]</div><div class="line">......</div><div class="line">http = 0.0.0.0:5000</div><div class="line">http-keepalive = 1</div><div class="line">add-header=Connection: Keep-Alive</div><div class="line">......</div></pre></td></tr></table></figure>
+<p>作者 <a href="http://yaoel.com/" target="_blank" rel="external">@yaoel</a><br>2017 年 05月 11日</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>1.<a href="https://github.com/containous/traefik/issues/615" target="_blank" rel="external">Traefik sporadically failing when proxying requests</a><br>2.<a href="http://uwsgi-docs.readthedocs.io/en/latest/Options.html?highlight=keep-alive" target="_blank" rel="external">uWSGI Options</a><br>3.<a href="https://www.amazon.cn/HTTP%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97-%E5%90%89%E5%B0%94%E5%88%A9/dp/B008XFDQ14/ref=sr_1_1?ie=UTF8&amp;qid=1494485238&amp;sr=8-1&amp;keywords=HTTP%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97" target="_blank" rel="external">HTTP权威指南 4.5.6 Keep–Alive和哑代理</a><br>4.<a href="https://github.com/unbit/uwsgi/issues/1097" target="_blank" rel="external">http-socket does not support Keep-Alive</a><br>5.<a href="https://github.com/changecoin/changetip-slack/blob/master/uwsgi.ini" target="_blank" rel="external">uwsgi.ini配置参考</a></p>
 
       
     </div>
@@ -307,27 +309,28 @@
     <header>
       
         <div class="icon"></div>
-        <time datetime="2017-05-11T15:15:03.000Z"><a href="/2017/05/11/traefik-http-server-closed-idle-connection/">2017-05-11</a></time>
+        <time datetime="2017-05-12T01:41:43.000Z"><a href="/2017/05/12/flask-migrate-mysql-rename-table-and-rename-field/">2017-05-12</a></time>
       
       
   
-    <h1 class="title"><a href="/2017/05/11/traefik-http-server-closed-idle-connection/"></a></h1>
+    <h1 class="title"><a href="/2017/05/12/flask-migrate-mysql-rename-table-and-rename-field/"></a></h1>
   
 
     </header>
     <div class="entry">
       
-        <h1 id="关于traefik报http-server-closed-idle-connection问题的分析和解决"><a href="#关于traefik报：http-server-closed-idle-connection问题的分析和解决" class="headerlink" title="关于traefik报：http: server closed idle connection问题的分析和解决"></a>关于traefik报：http: server closed idle connection问题的分析和解决</h1><h2 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h2><p>软件新版本上线后，系统经常时不时的出现<strong>500 Internal Server Error</strong>和<strong>502</strong>问题。</p>
-<h2 id="探查"><a href="#探查" class="headerlink" title="探查"></a>探查</h2><p>下面是软件的大体架构</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SLB&lt;----&gt;traefik&lt;---&gt;uwsgi&lt;----&gt;web server</div></pre></td></tr></table></figure>
-<p>请求从浏览器客户端发起，先到负载均衡，然后负载均衡转发到traefik，traefik再转发到具体的服务器某个端口；服务器端口后面是实际的web服务，当然，先通过uwsgi层再进入web server。<br>当出现<strong>500 Internal Server Error</strong>时，去查看具体的请求，发现三个蛛丝马迹：</p>
-<blockquote>
-<p>1.客户端同时发送了多个相同请求；<br>2.在web server的日志中看不到对应的请求报文；<br>3.traefik日志中出现：<figure class="highlight plain"><figcaption><span>level=warning msg="Error forwarding to</span><a href="http://xx.xx.xx.xx:8888," target="_blank" rel="external">err: http: server closed idle connection”```错误；</a></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&gt; 4.所有request headers和response headers中都带有```Connection: keep-alive```；</div><div class="line"></div><div class="line">## 分析</div><div class="line">1.请求在traefik和uwsgi之间中断了；</div><div class="line">2.跟http的长连接有关系；</div><div class="line"></div><div class="line">## 解决</div><div class="line">对于相同请求，第一个请求过来，带了```Connection:keep-alive```头，traefik认为跟uwsgi建立了长连接通道，但由于uwsgi没有支持长连接，在返回后就将连接关闭。单相同的第二个请求过来时，traefik还是使用之前的通道，而此时uwsgi已经关闭了连接，所以报错：```http: server closed idle connection```。</div><div class="line"></div><div class="line">再来看系统中uwsgi.ini：</div></pre></td></tr></table></figure></p>
+        <h1 id="使用flask-migratealembic实现mysql表名修改-字段名修改和枚举类型修改"><a href="#使用Flask-Migrate（alembic）实现MySQL表名修改、字段名修改和枚举类型修改" class="headerlink" title="使用Flask-Migrate（alembic）实现MySQL表名修改、字段名修改和枚举类型修改"></a>使用Flask-Migrate（alembic）实现MySQL表名修改、字段名修改和枚举类型修改</h1><blockquote>
+<ul>
+<li>表名修改</li>
+<li>字段名修改</li>
+<li>枚举类型增加枚举可选值</li>
+</ul>
 </blockquote>
-<p>[uwsgi]<br>……<br>http-socket = 0.0.0.0:5000<br>http-keepalive = 1<br>add-header=Connection: Keep-Alive<br>……<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">虽然看上去设置了http-keepalive，但是由于http-socket不支持keep-alive，所以无用。</div><div class="line">正确的配置方式如下：</div></pre></td></tr></table></figure></p>
-<p>[uwsgi]<br>……<br>http = 0.0.0.0:5000<br>http-keepalive = 1<br>add-header=Connection: Keep-Alive<br>……<br>```</p>
-<p>作者 <a href="http://yaoel.com/" target="_blank" rel="external">@yaoel</a><br>2017 年 05月 11日</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>1.<a href="https://github.com/containous/traefik/issues/615" target="_blank" rel="external">Traefik sporadically failing when proxying requests</a><br>2.<a href="http://uwsgi-docs.readthedocs.io/en/latest/Options.html?highlight=keep-alive" target="_blank" rel="external">uWSGI Options</a><br>3.<a href="https://www.amazon.cn/HTTP%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97-%E5%90%89%E5%B0%94%E5%88%A9/dp/B008XFDQ14/ref=sr_1_1?ie=UTF8&amp;qid=1494485238&amp;sr=8-1&amp;keywords=HTTP%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97" target="_blank" rel="external">HTTP权威指南 4.5.6 Keep–Alive和哑代理</a><br>4.<a href="https://github.com/unbit/uwsgi/issues/1097" target="_blank" rel="external">http-socket does not support Keep-Alive</a><br>5.<a href="https://github.com/changecoin/changetip-slack/blob/master/uwsgi.ini" target="_blank" rel="external">uwsgi.ini配置参考</a></p>
+<h2 id="表名修改"><a href="#表名修改" class="headerlink" title="表名修改"></a>表名修改</h2><p>由于之前创建的MySQL数据表名跟实际用处不符，所以需要修改表名，并保证数据不丢失。<br>若直接修改表名，然后使用命令<code>python manage.py db migrate</code>会删除后新建，导致数据丢失。为了保证数据不丢失，可以自己使用alembic语法编写升级脚本。语法如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">op.rename_table(&apos;shop_print_rules&apos;, &apos;label_print_rules&apos;)</div></pre></td></tr></table></figure></p>
+<h2 id="字段名修改"><a href="#字段名修改" class="headerlink" title="字段名修改"></a>字段名修改</h2><p>由于字段名名不副实，所以要对字段名进修改，并保证数据不丢失。<br>若字节修改字段名，然后使用命令<code>python manage.py db migrate</code>会删除后新建，导致数据丢失。使用下列语法可以保证数据不丢失，但需要自己编写升级脚本。语法如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">op.alter_column(&apos;label_print_rules&apos;, &apos;box_template_type&apos;, new_column_name=&apos;template_type&apos;,</div><div class="line">                existing_type=sa.Enum(&apos;single_box&apos;, &apos;all_box&apos;, &apos;pick&apos;, &apos;putaway&apos;,</div><div class="line">                                      &apos;stockin&apos;, &apos;stockout&apos;, &apos;delivery&apos;)</div><div class="line">                server_default=&apos;single_box&apos;)</div></pre></td></tr></table></figure></p>
+<h2 id="枚举类型字段增加枚举可选值"><a href="#枚举类型字段增加枚举可选值" class="headerlink" title="枚举类型字段增加枚举可选值"></a>枚举类型字段增加枚举可选值</h2><p>当对枚举类型字段增加枚举可选值时，使用Flask-Migrate进行migrate不会检测到改动，所以需要手动写脚本。语法如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">op.alter_column(&apos;label_print_rules&apos;, &apos;template_type&apos;, </div><div class="line">                existing_type=sa.Enum(&apos;single_box&apos;, &apos;all_box&apos;, &apos;pick&apos;, &apos;putaway&apos;,</div><div class="line">                                      &apos;stockin&apos;, &apos;stockout&apos;, &apos;delivery&apos;),</div><div class="line">                type_=sa.Enum(&apos;single_box&apos;, &apos;all_box&apos;, &apos;pick&apos;, &apos;putaway&apos;,</div><div class="line">                              &apos;stockin&apos;, &apos;stockout&apos;, &apos;delivery&apos;, &apos;single_picking_label&apos;,</div><div class="line">                              &apos;multi_picking_label&apos;, &apos;order_picking_label&apos;),</div><div class="line">                server_default=&apos;single_box&apos;)</div></pre></td></tr></table></figure></p>
+<p>作者 <a href="http://yaoel.com" target="_blank" rel="external">@yaoel</a><br>2017 年 05月 09日 </p>
+<p>参考：<br>1.<a href="http://nullege.com/codes/search/alembic.op.rename_table" target="_blank" rel="external">alembic.op.rename_table</a><br>2.<a href="http://www.crifan.com/flask_migrate_upgrade_mysql_rename_not_remove_column/" target="_blank" rel="external">Flask-Migrate升级MySQL字段时能否重命名而非删除后新建</a></p>
 
       
     </div>
