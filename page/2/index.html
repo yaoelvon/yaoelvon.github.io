@@ -249,6 +249,98 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2016-11-21T11:29:01.000Z"><a href="/2016/11/21/ng-admin-introduction/">2016-11-21</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2016/11/21/ng-admin-introduction/">ng-admin介绍</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>写在前面：本文档翻译自ng-admin 0.91版本。</p>
+<p>使用ng-admin配合RESTFul风格的后端API可以马上得到一个完整的管理界面，功能包括：数据表格（datagrid）、过滤器（filters）、复杂的表单控件（complex form widgets）、多模型关系（multi-model relationships）和仪表盘/概览（dashboard）。它不仅仅拥有简单的增删该查（CRUD）功能，在不影响其他开发进度的情况下，ng-admin能够很快帮助你构建一个复杂的图形用户界面。</p>
+<ul>
+<li><a href="http://marmelab.com/ng-admin-demo/#/dashboard" target="_blank" rel="external">在线例子</a>(<a href="https://github.com/marmelab/ng-admin-demo" target="_blank" rel="external">例子源码</a>)</li>
+<li><a href="http://ng-admin-book.marmelab.com/" target="_blank" rel="external">英文文档</a></li>
+</ul>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>当前的ng-admin版本（master分支）基于Angular.js 1.4。如果你需要兼容Angular 1.3，请使用ng-admin 0.9。</p>
+<p>使用包管理工具npm或bower获取ng-admin：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">npm install ng-admin —save</div><div class="line"><span class="comment"># 或</span></div><div class="line">bower install ng-admin —save</div></pre></td></tr></table></figure>
+<p>将库文件ng-admin.min.css和ng-admin.min.js添加到HTML中，然后在<code>&lt;body&gt;&lt;/body&gt;中</code>增加<code>&lt;div ui-view&gt;</code>，最后对admin进行配置：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!doctype html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">“en”</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>My First Admin<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">“stylesheet”</span> <span class="attr">href</span>=<span class="string">“node_modules/ng-admin/build/ng-admin.min.css”</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">body</span> <span class="attr">ng-app</span>=<span class="string">“myApp”</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">ui-view</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">“node_modules/ng-admin/build/ng-admin.min.js”</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">“text/javascript”</span>&gt;</span><span class="undefined"></span></div><div class="line">    var myApp = angular.module(‘myApp’, [‘ng-admin’]);</div><div class="line">    myApp.config([‘NgAdminConfigurationProvider’, function(NgAdminConfigurationProvider) &#123;</div><div class="line">        var nga = NgAdminConfigurationProvider;</div><div class="line">        // 创建一个管理应用</div><div class="line">        var admin = nga.application(‘My First Admin’);</div><div class="line">        // 之后的更多配置</div><div class="line">        // ...</div><div class="line">        // 将管理应用连接到DOM中，然后运行它</div><div class="line">        nga.configure(admin);</div><div class="line">    &#125;]);</div><div class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<h2 id="入门getting-started"><a href="#入门（Getting-Started）" class="headerlink" title="入门（Getting Started）"></a>入门（Getting Started）</h2><p>如果是初次接触ng-admin，请仔细阅读章节<a href="入门.md">入门</a>。</p>
+<h2 id="用法示例usage-examples"><a href="#用法示例（Usage-Examples）" class="headerlink" title="用法示例（Usage Examples）"></a>用法示例（Usage Examples）</h2><ul>
+<li>在<a href="http://ng-admin.marmelab.com/#/dashboard" target="_blank" rel="external">博客管理示例</a>(<a href="examples/blog/config.js">源码</a>)中，你能看到一个简单的配置，里面的实体（entities)有发帖(posts)、评论（comments)和标签（tags）。同时使用FakeRest在浏览器中模拟后端REST API。</li>
+<li><a href="http://marmelab.com/ng-admin-demo/" target="_blank" rel="external">Posters Galore demo</a> (<a href="https://github.com/marmelab/ng-admin-demo" target="_blank" rel="external">source</a>) 是一个更完整的电子商务管理页面，包含自定义认证、页面、指令和模块，并使用WebPack组织良好。同时使用<a href="https://github.com/marmelab/FakeRest" target="_blank" rel="external">FakeRest</a>在浏览器中模拟后端REST API。</li>
+</ul>
+<h2 id="配置参考configuration-reference"><a href="#配置参考（Configuration-Reference）" class="headerlink" title="配置参考（Configuration Reference）"></a>配置参考（Configuration Reference）</h2><p>在ng-admin中，一个管理工具是由包含多个<em>实体（entities)</em>的<em>应用</em>组成。每个实体（entity)拥有5种<em>视图</em>，每个视图拥有很多<em>字段（fields）</em>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">application</div><div class="line"> |-header</div><div class="line"> |-menu</div><div class="line"> |-dashboard</div><div class="line"> |-entity[]</div><div class="line">    |-creationView</div><div class="line">    |-editionView</div><div class="line">    |-deletionView</div><div class="line">    |-showView</div><div class="line">    |-listView</div><div class="line">        |-field[]</div><div class="line">           |-name</div><div class="line">           |-type</div></pre></td></tr></table></figure>
+<p>有关更多详细信息，请参阅<a href="配置API参考.md">配置API参考</a>专用章节。</p>
+<p><strong>提示</strong>:您在ng-admin项目中将找不到相关的类。 实际上，管理配置API有一个独立、框架无关的库，称为<a href="https://github.com/marmelab/admin-config" target="_blank" rel="external">admin-config</a>。 不要犹豫，浏览该库的代码以了解更多。</p>
+<h2 id="关联relationships"><a href="#关联（Relationships）" class="headerlink" title="关联（Relationships）"></a>关联（Relationships）</h2><p>Ng-admin的读写视图实体之间支持‘关联’。它提供了特定的字段类型来实现这些‘关联’：<code>reference</code>, <code>referenced_list</code>, <code>reference_many</code>, 和 <code>embedded_list</code>。<a href="关联.md">关联参考章节</a>中使用例子描述了更多的字段类型。</p>
+<p>另外，<a href="配置API参考.md">配置API参考章节</a>的字段部分具有所有字段类型的列表。</p>
+<h2 id="菜单配置menu-configuration"><a href="#菜单配置（Menu-Configuration）" class="headerlink" title="菜单配置（Menu Configuration）"></a>菜单配置（Menu Configuration）</h2><p>默认情况下，ng-admin创建一个侧边栏菜单，每个实体有一个条目。 如果要自定义侧边栏（标签，图标，顺序，添加子菜单等），则必须手动定义菜单。</p>
+<p>请参见<a href="菜单配置.md">菜单配置</a>专用章节。</p>
+<h2 id="仪表板配置dashboard-configuration"><a href="#仪表板配置（Dashboard-Configuration）" class="headerlink" title="仪表板配置（Dashboard Configuration）"></a>仪表板配置（Dashboard Configuration）</h2><p>ng-admin应用程序的主页被称为仪表板。 使用它向最终用户显示重要的信息，例如最新条目或图表。</p>
+<p>请参阅<a href="仪表板配置.md">仪表板配置</a>专用章节。</p>
+<h2 id="定制api映射customizing-the-api-mapping"><a href="#定制API映射（Customizing-the-API-Mapping）" class="headerlink" title="定制API映射（Customizing the API Mapping）"></a>定制API映射（Customizing the API Mapping）</h2><p>ng-admin对REST API所做的所有HTTP请求都是由<a href="https://github.com/mgonto/restangular" target="_blank" rel="external">Restangular</a>执行的。</p>
+<p>REST规范没有提供足够的详细信息来涵盖管理GUI的所有需求。 ng-admin对如何设计您的API进行了一些假设。 所有这些假设都可以通过<a href="https://github.com/mgonto/restangular#addresponseinterceptor" target="_blank" rel="external">Restangular的请求和响应拦截器</a>来覆盖。</p>
+<p>这意味着你不需要为了ng-admin而调整你的API; ng-admin可以适应任何REST API，这要归功于Restangular的灵活性。</p>
+<p>请参阅<a href="定制API映射.md">定制API映射</a>专用章节。</p>
+<h2 id="主题theming"><a href="#主题（Theming）" class="headerlink" title="主题（Theming）"></a>主题（Theming）</h2><p>你可以在不同的级别覆盖几乎所有ng-admin生成的HTML。</p>
+<p>参见<a href="主题.md">主题</a>专门章节。</p>
+<h2 id="添加自定义页面adding-custom-pages"><a href="#添加自定义页面（Adding-Custom-Pages）" class="headerlink" title="添加自定义页面（Adding Custom Pages）"></a>添加自定义页面（Adding Custom Pages）</h2><p>对于每个实体，ng-admin创建用于’创建’，’检索’，’更新’和’删除’（CRUD）此实体的必要页面。 当您需要在实体上实现更特定的操作时，您必须添加自定义页面，例如要求向一个电子邮件地址发送消息的页面。 如何路由到特定页面并在ng-admin布局中显示它？</p>
+<p>请参阅<a href="添加自定义页面.md">添加自定义页面</a>专用章节。</p>
+<h2 id="添加自定义类型adding-custom-types"><a href="#添加自定义类型（Adding-Custom-Types）" class="headerlink" title="添加自定义类型（Adding Custom Types）"></a>添加自定义类型（Adding Custom Types）</h2><p>当您在REST API的响应信息和ng-admin之间映射字段时，您需要为其指定类型。 这个类型会确定如何显示和编辑这些数据。 自定义现有的ng-admin类型和添加新的ng-admin类型非常容易。</p>
+<p>请参阅<a href="添加自定义页面.md">添加自定义类型</a>专用章节。</p>
+<h2 id="生产准备getting-ready-for-production"><a href="#生产准备（Getting-Ready-For-Production）" class="headerlink" title="生产准备（Getting Ready For Production）"></a>生产准备（Getting Ready For Production）</h2><p>要构建具有所需依赖关系的ng-admin源，并获得关于性能提升的提示，请参阅<a href="生产准备.md">生产准备</a>专用章节。</p>
+<h2 id="信息news"><a href="#信息（News）" class="headerlink" title="信息（News）"></a>信息（News）</h2><p>关于ng-admin（教程，插件，新版本等）的新闻，请按照<a href="http://marmelab.com/blog/" target="_blank" rel="external">marmelab博客</a>。</p>
+<p>您还应该观看<a href="https://github.com/marmelab/ng-admin/releases" target="_blank" rel="external">gitHub上的ng-admin发布页面</a>以获取有关新发布的公告以及完成更新日志。</p>
+<h2 id="支持support"><a href="#支持（Support）" class="headerlink" title="支持（Support）"></a>支持（Support）</h2><p>Ng-admin是一个开源项目，并且社区越来越大。 您可以通过在以下任何渠道询求帮助：</p>
+<ul>
+<li><a href="http://stackoverflow.com/questions/tagged/ng-admin" target="_blank" rel="external">StackOverflow</a></li>
+<li>Gitter (live chat)](<a href="https://gitter.im/marmelab/ng-admin" target="_blank" rel="external">https://gitter.im/marmelab/ng-admin</a>) <a href="https://gitter.im/marmelab/ng-admin?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge&amp;utm_content=badge" target="_blank" rel="external"><img src="https://badges.gitter.im/Join%20Chat.svg" alt="Join the chat at https://gitter.im/marmelab/ng-admin"></a></li>
+</ul>
+<p>请尽可能多地提供上下文，包括和管理配置的代码段，以及您映射的API的响应。</p>
+<h2 id="贡献contributing"><a href="#贡献（Contributing）" class="headerlink" title="贡献（Contributing）"></a>贡献（Contributing）</h2><p>在您的特定环境中的使用ng-admin的反馈是有价值的，不要犹豫<a href="https://github.com/marmelab/ng-admin/issues" target="_blank" rel="external">打开GitHub的issue</a>提出任何你想问的问题。</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+
+
+  <article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2016-09-11T12:21:56.000Z"><a href="/2016/09/11/some-tips-of-MySQL/">2016-09-11</a></time>
       
       
@@ -512,55 +604,6 @@
 <ol>
 <li><a href="http://stackoverflow.com/questions/18396936/flask-flash-function-ignoring-the-category-argument" target="_blank" rel="external">Flash</a></li>
 </ol>
-
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-
-
-  <article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2016-06-05T02:16:29.000Z"><a href="/2016/06/05/Flask-SQLALchemy-dynamic-filter-by-and-filter/">2016-06-05</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2016/06/05/Flask-SQLALchemy-dynamic-filter-by-and-filter/">Flask-SQLALchemy动态的filter_by和filter</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <h1 id="1filter_by"><a href="#1-filter-by" class="headerlink" title="1.filter_by"></a>1.filter_by</h1><p>filter_by用于查询简单的列名，不支持比较运算符。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">filters = &#123;’name&apos;: ‘fengyao&apos;, ‘age&apos;: 26&#125;</div><div class="line">User.query.filter_by(**filters).first()</div></pre></td></tr></table></figure></p>
-<h1 id="2filter"><a href="#2-filter" class="headerlink" title="2.filter"></a>2.filter</h1><p>比filter<em>by的功能更强大，支持比较运算符，支持or</em>、in_等语法。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">filters = &#123;</div><div class="line">     User.name == ‘fengyao’,</div><div class="line">     User.age &gt; 25</div><div class="line">&#125;</div><div class="line">User.query.filter(*filters).first()</div></pre></td></tr></table></figure></p>
-<p>参考：<br>1.<a href="http://stackoverflow.com/questions/29885879/sqlalchemy-dynamic-filter-by" target="_blank" rel="external">SQLALchemy dynamic filter_by</a></p>
 
       
     </div>

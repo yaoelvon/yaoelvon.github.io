@@ -249,6 +249,55 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2016-06-05T02:16:29.000Z"><a href="/2016/06/05/Flask-SQLALchemy-dynamic-filter-by-and-filter/">2016-06-05</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2016/06/05/Flask-SQLALchemy-dynamic-filter-by-and-filter/">Flask-SQLALchemy动态的filter_by和filter</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h1 id="1filter_by"><a href="#1-filter-by" class="headerlink" title="1.filter_by"></a>1.filter_by</h1><p>filter_by用于查询简单的列名，不支持比较运算符。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">filters = &#123;’name&apos;: ‘fengyao&apos;, ‘age&apos;: 26&#125;</div><div class="line">User.query.filter_by(**filters).first()</div></pre></td></tr></table></figure></p>
+<h1 id="2filter"><a href="#2-filter" class="headerlink" title="2.filter"></a>2.filter</h1><p>比filter<em>by的功能更强大，支持比较运算符，支持or</em>、in_等语法。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">filters = &#123;</div><div class="line">     User.name == ‘fengyao’,</div><div class="line">     User.age &gt; 25</div><div class="line">&#125;</div><div class="line">User.query.filter(*filters).first()</div></pre></td></tr></table></figure></p>
+<p>参考：<br>1.<a href="http://stackoverflow.com/questions/29885879/sqlalchemy-dynamic-filter-by" target="_blank" rel="external">SQLALchemy dynamic filter_by</a></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+
+
+  <article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2016-04-10T15:05:07.000Z"><a href="/2016/04/10/use-git-ssh-key-carry-hexo-deploy/">2016-04-10</a></time>
       
       
