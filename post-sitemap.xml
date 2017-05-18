@@ -7,16 +7,24 @@
     </url>
 
     <url>
-        <loc>http://yaofeng.org/2017/05/17/do-not-do-pseudo-workers/</loc>
-        <lastmod>2017-05-17T15:18:55.000Z</lastmod>
+        <loc>http://yaofeng.org/2017/05/18/domain-driven-design-learning-1/</loc>
+        <lastmod>2017-05-18T16:07:12.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
     </url>
 
     <url>
-        <loc>http://yaofeng.org/2017/05/12/traefik-http-server-closed-idle-connection/</loc>
-        <lastmod>2017-05-12T01:41:49.000Z</lastmod>
+        <loc>http://yaofeng.org/2017/05/18/traefik-http-server-closed-idle-connection/</loc>
+        <lastmod>2017-05-18T10:07:39.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://yaofeng.org/2017/05/17/do-not-do-pseudo-workers/</loc>
+        <lastmod>2017-05-17T15:18:55.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 

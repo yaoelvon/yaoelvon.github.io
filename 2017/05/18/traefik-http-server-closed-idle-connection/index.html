@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>归档：2017 | 技术洞见</title>
+  <title>技术洞见</title>
   <meta name="author" content="冯尧">
   
   <meta name="description" content="冯尧的博客，yaoel.com, 冯尧, fengyao">
@@ -49,7 +49,7 @@
 
   <link rel="canonical" href=" { { site.url } }{ { page.url } }" />
 
-  <link rel="canonical" href="">
+  <link rel="canonical" href="http://yaofeng.org/2017/05/18/traefik-http-server-closed-idle-connection/">
 
   <meta name="google-site-verification" content="kh_sB30WwfjtDbuLlr6BFEWJecFKCcNU2m27xSVvtao" />
   <meta name="baidu-site-verification" content="KPpYrWskhS" />
@@ -230,73 +230,93 @@
 <div class="clearfix"></div>
 </header>
   <div id="content" class="inner">
-    <div id="main-col" class="alignleft"><div id="wrapper">
-<h2 class="archive-title">2017</h2>
-
-
-  <div class="archive">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
     
-      <article class="post">
-        <div class="post-content">
-          <header>
-            <div class="icon"></div>
-            <time datetime="2017-05-18T16:07:12.000Z"><a href="/2017/05/18/domain-driven-design-learning-1/">2017-05-18</a></time>
-            
-              <h1 class="title"><a href="/2017/05/18/domain-driven-design-learning-1/"></a></h1>
-            
-          </header>
-        </div>
-      </article>
-    
-      <article class="post">
-        <div class="post-content">
-          <header>
-            <div class="icon"></div>
-            <time datetime="2017-05-18T10:07:39.000Z"><a href="/2017/05/18/traefik-http-server-closed-idle-connection/">2017-05-18</a></time>
-            
-              <h1 class="title"><a href="/2017/05/18/traefik-http-server-closed-idle-connection/"></a></h1>
-            
-          </header>
-        </div>
-      </article>
-    
-      <article class="post">
-        <div class="post-content">
-          <header>
-            <div class="icon"></div>
-            <time datetime="2017-05-17T15:18:55.000Z"><a href="/2017/05/17/do-not-do-pseudo-workers/">2017-05-17</a></time>
-            
-              <h1 class="title"><a href="/2017/05/17/do-not-do-pseudo-workers/"></a></h1>
-            
-          </header>
-        </div>
-      </article>
-    
-      <article class="post">
-        <div class="post-content">
-          <header>
-            <div class="icon"></div>
-            <time datetime="2017-05-12T01:41:43.000Z"><a href="/2017/05/12/flask-migrate-mysql-rename-table-and-rename-field/">2017-05-12</a></time>
-            
-              <h1 class="title"><a href="/2017/05/12/flask-migrate-mysql-rename-table-and-rename-field/"></a></h1>
-            
-          </header>
-        </div>
-      </article>
-    
-      <article class="post">
-        <div class="post-content">
-          <header>
-            <div class="icon"></div>
-            <time datetime="2017-05-09T06:29:40.000Z"><a href="/2017/05/09/caddy-introduction/">2017-05-09</a></time>
-            
-              <h1 class="title"><a href="/2017/05/09/caddy-introduction/"></a></h1>
-            
-          </header>
-        </div>
-      </article>
+      <img src="">
     
   </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2017-05-18T10:07:39.000Z"><a href="/2017/05/18/traefik-http-server-closed-idle-connection/">2017-05-18</a></time>
+      
+      
+  
+    <h1 class="title"></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h1 id="关于traefik报http-server-closed-idle-connection问题的分析和解决"><a href="#关于traefik报：http-server-closed-idle-connection问题的分析和解决" class="headerlink" title="关于traefik报：http: server closed idle connection问题的分析和解决"></a>关于traefik报：http: server closed idle connection问题的分析和解决</h1><h2 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h2><p>软件新版本上线后，系统经常时不时的出现<strong>500 Internal Server Error</strong>和<strong>502</strong>问题。</p>
+<h2 id="探查"><a href="#探查" class="headerlink" title="探查"></a>探查</h2><p>下面是软件的大体架构<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SLB&lt;----&gt;traefik&lt;---&gt;uwsgi&lt;----&gt;web server</div></pre></td></tr></table></figure></p>
+<p>请求从浏览器客户端发起，先到负载均衡，然后负载均衡转发到traefik，traefik再转发到具体的服务器某个端口；服务器端口后面是实际的web服务，当然，先通过uwsgi层再进入web server。<br>当出现<strong>500 Internal Server Error</strong>时，去查看具体的请求，发现三个蛛丝马迹：</p>
+<blockquote>
+<p>1.客户端同时发送了多个相同请求；<br>2.在web server的日志中看不到对应的请求报文；<br>3.traefik日志中出现：<code>time=&quot;2017-03-20T03:43:17Z&quot; level=warning msg=&quot;Error forwarding to http://xx.xx.xx.xx:8888, err: http: server closed idle connection”</code>错误；<br>4.所有request headers和response headers中都带有<code>Connection: keep-alive</code>；</p>
+</blockquote>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>1.请求在traefik和uwsgi之间中断了；<br>2.跟http的长连接有关系；</p>
+<h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><p>对于相同请求，第一个请求过来，带了<code>Connection:keep-alive</code>头，traefik认为跟uwsgi建立了长连接通道，但由于uwsgi没有支持长连接，在返回后就将连接关闭。当相同的第二个请求过来时，traefik还是使用之前的通道，而此时uwsgi已经关闭了连接，所以报错：<code>http: server closed idle connection</code>。</p>
+<p>再来看系统中uwsgi.ini：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">[uwsgi]</div><div class="line">......</div><div class="line">http-socket = 0.0.0.0:5000</div><div class="line">http-keepalive = 1</div><div class="line">add-header=Connection: Keep-Alive</div><div class="line">......</div></pre></td></tr></table></figure>
+<p>虽然看上去设置了http-keepalive，但是由于http-socket不支持keep-alive，所以无用。<br>正确的配置方式如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">[uwsgi]</div><div class="line">......</div><div class="line">http = 0.0.0.0:5000</div><div class="line">http-keepalive = 1</div><div class="line">add-header=Connection: Keep-Alive</div><div class="line">......</div></pre></td></tr></table></figure>
+<p>作者 <a href="http://yaoel.com/" target="_blank" rel="external">@yaoel</a><br>2017 年 05月 11日</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>1.<a href="https://github.com/containous/traefik/issues/615" target="_blank" rel="external">Traefik sporadically failing when proxying requests</a><br>2.<a href="http://uwsgi-docs.readthedocs.io/en/latest/Options.html?highlight=keep-alive" target="_blank" rel="external">uWSGI Options</a><br>3.<a href="https://www.amazon.cn/HTTP%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97-%E5%90%89%E5%B0%94%E5%88%A9/dp/B008XFDQ14/ref=sr_1_1?ie=UTF8&amp;qid=1494485238&amp;sr=8-1&amp;keywords=HTTP%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97" target="_blank" rel="external">HTTP权威指南 4.5.6 Keep–Alive和哑代理</a><br>4.<a href="https://github.com/unbit/uwsgi/issues/1097" target="_blank" rel="external">http-socket does not support Keep-Alive</a><br>5.<a href="https://github.com/changecoin/changetip-slack/blob/master/uwsgi.ini" target="_blank" rel="external">uwsgi.ini配置参考</a></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+<section id="comment">
+
+<!-- 多说评论框 start -->
+    <div class="ds-thread" data-thread-key=0 data-title=0 data-url=0></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"ipyjs"};
+    (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+    </script>
+<!-- 多说公共JS代码 end -->
+ <nav id="pagination" >
+    
+    <a href="/2017/05/18/domain-driven-design-learning-1/" class="alignleft prev" >上一页</a>
+    
+    
+    <a href="/2017/05/17/do-not-do-pseudo-workers/" class="alignright next" >下一页</a>
+    
+    <div class="clearfix"></div>
+</nav>
+</section>
+
+
 </div></div>
     <aside id="sidebar" class="alignright">
   <div class="search">

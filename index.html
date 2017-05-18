@@ -249,21 +249,35 @@
     <header>
       
         <div class="icon"></div>
-        <time datetime="2017-05-17T15:18:55.000Z"><a href="/2017/05/17/do-not-do-pseudo-workers/">2017-05-17</a></time>
+        <time datetime="2017-05-18T16:07:12.000Z"><a href="/2017/05/18/domain-driven-design-learning-1/">2017-05-18</a></time>
       
       
   
-    <h1 class="title"><a href="/2017/05/17/do-not-do-pseudo-workers/"></a></h1>
+    <h1 class="title"><a href="/2017/05/18/domain-driven-design-learning-1/"></a></h1>
   
 
     </header>
     <div class="entry">
       
-        <h1 id="不做伪工作者"><a href="#不做伪工作者" class="headerlink" title="不做伪工作者"></a>不做伪工作者</h1><h2 id="什么是伪工作者"><a href="#什么是伪工作者" class="headerlink" title="什么是伪工作者"></a>什么是伪工作者</h2><p>在互联网行业中工作的程序员们都会有这样的感觉，每时每刻手上都有三四个任务甚至更多，并且完成两个之后，可能会冒出两个三个甚至四个，所有手上一直有很多任务。在面对这么多任务的时候，很多人会追求完成任务的个数，所以往往选择简单的任务开始做。虽然这样做，看似工作完成的比例还不错，但是很危险。虽然每天看似工作的满满的，但很可能并没有解决真正重要有价值的事情。甚至于不断的在做重复性工作，技术工作能力都没有得到提高，甚至下降。也得到不到公司的提拔。最终，既坑了自己，可坑了公司。这样的人就是<strong>伪工作者</strong>。<br>当然，我们都不希望成为伪工作者，那么怎么成为一个‘<strong>真</strong>’工作者呢？</p>
-<h2 id="如何成为真工作者"><a href="#如何成为’真’工作者" class="headerlink" title="如何成为’真’工作者"></a>如何成为’真’工作者</h2><h3 id="要能分辨手上哪些工作对公司的价值最大"><a href="#要能分辨手上哪些工作对公司的价值最大" class="headerlink" title="要能分辨手上哪些工作对公司的价值最大"></a>要能分辨手上哪些工作对公司的价值最大</h3><p>很多公司并不看重你完成任务的数量，而更看重你所完成任务为公司产生的价值有多大。很多任务虽然很难，但是，如果这个事情很有价值，那就值得做。</p>
-<h3 id="要有主动性"><a href="#要有主动性" class="headerlink" title="要有主动性"></a>要有主动性</h3><p>虽然管理人员能下发很多任务，但光靠这样是不够的，员工也要主动去辨别哪些工作对公司有大的价值，然后提出来。现在，很多DevOps类型的开发都是直面一线客户的，所以他们可以，也完全能够提出一些有价值的建议。</p>
-<h3 id="使用时间四象限法则"><a href="#使用时间四象限法则" class="headerlink" title="使用时间四象限法则"></a>使用时间四象限法则</h3><p>时间四象限法则将事情分成四类，分别是：重要有紧急、重要不紧急、紧急不重要、不重要不紧急。<br>对以‘真’工作者为目标的我们来说，主要需要完成1、2，在有余力的时候再去做3、4。当然，这里还有一个重点，就是要梳理自己的任务，将他们分别代入这四象限之中。这样，就算任务满屏非，只要重点关注1和2就可以了。<br><img src="http://upload-images.jianshu.io/upload_images/1849210-38df0d32ee109058.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="时间四象限法则"></p>
-<p>祝进步<br><a href="http://yaoel.com" target="_blank" rel="external">yaoel</a><br>2017年5月17日于上海</p>
+        <h1 id="领域驱动设计学习1"><a href="#领域驱动设计学习（1）" class="headerlink" title="领域驱动设计学习（1）"></a>领域驱动设计学习（1）</h1><p>今天学习了领域驱动设计的导学，算是对DDD（Domain Driven Design）有了一个初步的认识。下面是学习中归纳的一些信息，主要围绕六个问题展开。</p>
+<blockquote>
+<ul>
+<li>1.什么是DDD</li>
+<li>2.DDD解决了什么问题</li>
+<li>3.领域如何划分</li>
+<li>4.聚合和领域之间的关系</li>
+<li>5.战略建模与战术建模谁更重要</li>
+<li>6.ORM与领域建模</li>
+</ul>
+</blockquote>
+<h2 id="1什么是ddd"><a href="#1-什么是DDD" class="headerlink" title="1.什么是DDD"></a>1.什么是DDD</h2><p>Domain Driven Design，领域驱动设计，那么什么是领域呢？领域就是业务，这里的领域是分层的。大致可以分为：实体、值对象、聚合、领域服务和领域事件等。</p>
+<h2 id="2ddd解决了什么问题"><a href="#2-DDD解决了什么问题" class="headerlink" title="2.DDD解决了什么问题"></a>2.DDD解决了什么问题</h2><p>解决软件的复杂性问题。</p>
+<h2 id="3领域如何划分"><a href="#3-领域如何划分" class="headerlink" title="3.领域如何划分"></a>3.领域如何划分</h2><p>按功能划分</p>
+<h2 id="4聚合和领域之间的关系"><a href="#4-聚合和领域之间的关系" class="headerlink" title="4.聚合和领域之间的关系"></a>4.聚合和领域之间的关系</h2><p>聚合是领域的核心概念，在领域驱动设计中，大的对象实体是由小的对象实体聚合起来的。在想要访问某个小的对象实体时，需要以大的对象实体为入口进行访问。这规定了对象之间的边界，避免了一个对象被很多地方混乱的调用的情况，降低模型的复杂度。（很拗口，不知能不能被理解）</p>
+<h2 id="5战略建模和战术建模谁更重要"><a href="#5-战略建模和战术建模谁更重要" class="headerlink" title="5.战略建模和战术建模谁更重要"></a>5.战略建模和战术建模谁更重要</h2><p>当然，两个都很重要。但是，可以确定的一点就是，战术更难。讲到战术和战略，就不得不提领域驱动设计经典的两本书。<br>第一本是04年出版的DDD，它全书是以自下向上的方式写的，从细节的战术开始写，一直到第四部分，才讲到战略。当然，这是因为年代的不同，04年的时候流行自下向上的开发方式。<br>第二本是13年出版的IDDD，实现领域驱动设计，它采用的是自顶下下的方式，从战略开始写，后面才讲到战术。当然，这是有原因的。到了13年，微服务开始兴起，因此小公司也可以先考虑战略，将整个软件分为几个微服务模块进行开发。<br>上面两本书的区别也会影响到学习DDD时，如何阅读这两本书的顺序。这个之后再谈。</p>
+<h2 id="6orm与领域建模"><a href="#6-ORM与领域建模" class="headerlink" title="6.ORM与领域建模"></a>6.ORM与领域建模</h2><p>ORM和领域建模不是一个东西。ORM其实就是DAO（data access object），它最多跟领域模型最底部的Repository概念类似，且也不全然相同。可以这么说，Repository可以用ORM实现，但ORM并不是repository。</p>
+<p>上述是根据本次技术交流做的总结，有问题请指出，祝进步。<br><a href="http://yaoel.com" target="_blank" rel="external">yaoel</a><br>2017年5月19日</p>
+<p>参考：<br>1.<a href="https://www.amazon.cn/dp/B01GZ6T12K/ref=cngwdyfloorv2_recs_0?pf_rd_p=7645736c-6759-4677-9dfb-2a3fd04770aa&amp;pf_rd_s=desktop-2&amp;pf_rd_t=36701&amp;pf_rd_i=desktop&amp;pf_rd_m=A1AJ19PSB66TGU&amp;pf_rd_r=MAEG7SHMD36E23PTFMWH&amp;pf_rd_r=MAEG7SHMD36E23PTFMWH&amp;pf_rd_p=7645736c-6759-4677-9dfb-2a3fd04770aa" target="_blank" rel="external">领域驱动设计</a><br>2.<a href="https://www.amazon.cn/dp/B00IYTVWA6/ref=cngwdyfloorv2_recs_0?pf_rd_p=7645736c-6759-4677-9dfb-2a3fd04770aa&amp;pf_rd_s=desktop-2&amp;pf_rd_t=36701&amp;pf_rd_i=desktop&amp;pf_rd_m=A1AJ19PSB66TGU&amp;pf_rd_r=MAEG7SHMD36E23PTFMWH&amp;pf_rd_r=MAEG7SHMD36E23PTFMWH&amp;pf_rd_p=7645736c-6759-4677-9dfb-2a3fd04770aa" target="_blank" rel="external">实现领域驱动设计</a><br>3.<a href="https://github.com/zkavtaskin/Domain-Driven-Design-Example" target="_blank" rel="external">Domain-Driven-Design-Example</a></p>
 
       
     </div>
@@ -300,11 +314,11 @@
     <header>
       
         <div class="icon"></div>
-        <time datetime="2017-05-12T01:41:49.000Z"><a href="/2017/05/12/traefik-http-server-closed-idle-connection/">2017-05-12</a></time>
+        <time datetime="2017-05-18T10:07:39.000Z"><a href="/2017/05/18/traefik-http-server-closed-idle-connection/">2017-05-18</a></time>
       
       
   
-    <h1 class="title"><a href="/2017/05/12/traefik-http-server-closed-idle-connection/"></a></h1>
+    <h1 class="title"><a href="/2017/05/18/traefik-http-server-closed-idle-connection/"></a></h1>
   
 
     </header>
@@ -317,13 +331,64 @@
 <p>1.客户端同时发送了多个相同请求；<br>2.在web server的日志中看不到对应的请求报文；<br>3.traefik日志中出现：<code>time=&quot;2017-03-20T03:43:17Z&quot; level=warning msg=&quot;Error forwarding to http://xx.xx.xx.xx:8888, err: http: server closed idle connection”</code>错误；<br>4.所有request headers和response headers中都带有<code>Connection: keep-alive</code>；</p>
 </blockquote>
 <h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>1.请求在traefik和uwsgi之间中断了；<br>2.跟http的长连接有关系；</p>
-<h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><p>对于相同请求，第一个请求过来，带了<code>Connection:keep-alive</code>头，traefik认为跟uwsgi建立了长连接通道，但由于uwsgi没有支持长连接，在返回后就将连接关闭。单相同的第二个请求过来时，traefik还是使用之前的通道，而此时uwsgi已经关闭了连接，所以报错：<code>http: server closed idle connection</code>。</p>
+<h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><p>对于相同请求，第一个请求过来，带了<code>Connection:keep-alive</code>头，traefik认为跟uwsgi建立了长连接通道，但由于uwsgi没有支持长连接，在返回后就将连接关闭。当相同的第二个请求过来时，traefik还是使用之前的通道，而此时uwsgi已经关闭了连接，所以报错：<code>http: server closed idle connection</code>。</p>
 <p>再来看系统中uwsgi.ini：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">[uwsgi]</div><div class="line">......</div><div class="line">http-socket = 0.0.0.0:5000</div><div class="line">http-keepalive = 1</div><div class="line">add-header=Connection: Keep-Alive</div><div class="line">......</div></pre></td></tr></table></figure>
 <p>虽然看上去设置了http-keepalive，但是由于http-socket不支持keep-alive，所以无用。<br>正确的配置方式如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">[uwsgi]</div><div class="line">......</div><div class="line">http = 0.0.0.0:5000</div><div class="line">http-keepalive = 1</div><div class="line">add-header=Connection: Keep-Alive</div><div class="line">......</div></pre></td></tr></table></figure>
 <p>作者 <a href="http://yaoel.com/" target="_blank" rel="external">@yaoel</a><br>2017 年 05月 11日</p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>1.<a href="https://github.com/containous/traefik/issues/615" target="_blank" rel="external">Traefik sporadically failing when proxying requests</a><br>2.<a href="http://uwsgi-docs.readthedocs.io/en/latest/Options.html?highlight=keep-alive" target="_blank" rel="external">uWSGI Options</a><br>3.<a href="https://www.amazon.cn/HTTP%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97-%E5%90%89%E5%B0%94%E5%88%A9/dp/B008XFDQ14/ref=sr_1_1?ie=UTF8&amp;qid=1494485238&amp;sr=8-1&amp;keywords=HTTP%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97" target="_blank" rel="external">HTTP权威指南 4.5.6 Keep–Alive和哑代理</a><br>4.<a href="https://github.com/unbit/uwsgi/issues/1097" target="_blank" rel="external">http-socket does not support Keep-Alive</a><br>5.<a href="https://github.com/changecoin/changetip-slack/blob/master/uwsgi.ini" target="_blank" rel="external">uwsgi.ini配置参考</a></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+
+
+  <article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2017-05-17T15:18:55.000Z"><a href="/2017/05/17/do-not-do-pseudo-workers/">2017-05-17</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2017/05/17/do-not-do-pseudo-workers/"></a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h1 id="不做伪工作者"><a href="#不做伪工作者" class="headerlink" title="不做伪工作者"></a>不做伪工作者</h1><h2 id="什么是伪工作者"><a href="#什么是伪工作者" class="headerlink" title="什么是伪工作者"></a>什么是伪工作者</h2><p>在互联网行业中工作的程序员们都会有这样的感觉，每时每刻手上都有三四个任务甚至更多，并且完成两个之后，可能会冒出两个三个甚至四个，所有手上一直有很多任务。在面对这么多任务的时候，很多人会追求完成任务的个数，所以往往选择简单的任务开始做。虽然这样做，看似工作完成的比例还不错，但是很危险。虽然每天看似工作的满满的，但很可能并没有解决真正重要有价值的事情。甚至于不断的在做重复性工作，技术工作能力都没有得到提高，甚至下降。也得到不到公司的提拔。最终，既坑了自己，可坑了公司。这样的人就是<strong>伪工作者</strong>。<br>当然，我们都不希望成为伪工作者，那么怎么成为一个‘<strong>真</strong>’工作者呢？</p>
+<h2 id="如何成为真工作者"><a href="#如何成为’真’工作者" class="headerlink" title="如何成为’真’工作者"></a>如何成为’真’工作者</h2><h3 id="要能分辨手上哪些工作对公司的价值最大"><a href="#要能分辨手上哪些工作对公司的价值最大" class="headerlink" title="要能分辨手上哪些工作对公司的价值最大"></a>要能分辨手上哪些工作对公司的价值最大</h3><p>很多公司并不看重你完成任务的数量，而更看重你所完成任务为公司产生的价值有多大。很多任务虽然很难，但是，如果这个事情很有价值，那就值得做。</p>
+<h3 id="要有主动性"><a href="#要有主动性" class="headerlink" title="要有主动性"></a>要有主动性</h3><p>虽然管理人员能下发很多任务，但光靠这样是不够的，员工也要主动去辨别哪些工作对公司有大的价值，然后提出来。现在，很多DevOps类型的开发都是直面一线客户的，所以他们可以，也完全能够提出一些有价值的建议。</p>
+<h3 id="使用时间四象限法则"><a href="#使用时间四象限法则" class="headerlink" title="使用时间四象限法则"></a>使用时间四象限法则</h3><p>时间四象限法则将事情分成四类，分别是：重要有紧急、重要不紧急、紧急不重要、不重要不紧急。<br>对以‘真’工作者为目标的我们来说，主要需要完成1、2，在有余力的时候再去做3、4。当然，这里还有一个重点，就是要梳理自己的任务，将他们分别代入这四象限之中。这样，就算任务满屏非，只要重点关注1和2就可以了。<br><img src="http://upload-images.jianshu.io/upload_images/1849210-38df0d32ee109058.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="时间四象限法则"></p>
+<p>祝进步<br><a href="http://yaoel.com" target="_blank" rel="external">yaoel</a><br>2017年5月17日于上海</p>
 
       
     </div>
@@ -453,55 +518,6 @@
 <p>也可以在一个Caddyfile中设置多个域名的解析</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">yaofeng.org &#123;</div><div class="line">        root    /www/yaofeng.org</div><div class="line">&#125;</div><div class="line"></div><div class="line">sub.yaofeng.org &#123;</div><div class="line">        root    /www/sub.yaofeng.org</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>over</p>
-
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-
-
-  <article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2017-05-04T05:05:59.000Z"><a href="/2017/05/04/docker-run-raise-exception-permission-denied/">2017-05-04</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2017/05/04/docker-run-raise-exception-permission-denied/">docker启动镜像时，运行可执行文件报&quot;permission denied&quot;</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <p>错误信息：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">2017-04-28 17:38:20:docker: &#123;&quot;message&quot;:&quot;containerd: container not started&quot;&#125;</div><div class="line">2017-04-28 17:38:26:container_linux.go:247: starting container process caused &quot;exec: \&quot;/IntelliJ/license_server\&quot;: permission denied&quot;</div></pre></td></tr></table></figure></p>
-<p>解决方案：<br>在Dockerfile中增加<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">RUN chmod +x ./license_server</div></pre></td></tr></table></figure></p>
-<p>参考：<br><a href="https://github.com/facebook/fbctf/issues/431" target="_blank" rel="external">https://github.com/facebook/fbctf/issues/431</a></p>
 
       
     </div>

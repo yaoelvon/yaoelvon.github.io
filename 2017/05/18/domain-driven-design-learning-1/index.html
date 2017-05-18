@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>归档：2017 | 技术洞见</title>
+  <title>技术洞见</title>
   <meta name="author" content="冯尧">
   
   <meta name="description" content="冯尧的博客，yaoel.com, 冯尧, fengyao">
@@ -49,7 +49,7 @@
 
   <link rel="canonical" href=" { { site.url } }{ { page.url } }" />
 
-  <link rel="canonical" href="">
+  <link rel="canonical" href="http://yaofeng.org/2017/05/18/domain-driven-design-learning-1/">
 
   <meta name="google-site-verification" content="kh_sB30WwfjtDbuLlr6BFEWJecFKCcNU2m27xSVvtao" />
   <meta name="baidu-site-verification" content="KPpYrWskhS" />
@@ -230,73 +230,96 @@
 <div class="clearfix"></div>
 </header>
   <div id="content" class="inner">
-    <div id="main-col" class="alignleft"><div id="wrapper">
-<h2 class="archive-title">2017</h2>
-
-
-  <div class="archive">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
     
-      <article class="post">
-        <div class="post-content">
-          <header>
-            <div class="icon"></div>
-            <time datetime="2017-05-18T16:07:12.000Z"><a href="/2017/05/18/domain-driven-design-learning-1/">2017-05-18</a></time>
-            
-              <h1 class="title"><a href="/2017/05/18/domain-driven-design-learning-1/"></a></h1>
-            
-          </header>
-        </div>
-      </article>
-    
-      <article class="post">
-        <div class="post-content">
-          <header>
-            <div class="icon"></div>
-            <time datetime="2017-05-18T10:07:39.000Z"><a href="/2017/05/18/traefik-http-server-closed-idle-connection/">2017-05-18</a></time>
-            
-              <h1 class="title"><a href="/2017/05/18/traefik-http-server-closed-idle-connection/"></a></h1>
-            
-          </header>
-        </div>
-      </article>
-    
-      <article class="post">
-        <div class="post-content">
-          <header>
-            <div class="icon"></div>
-            <time datetime="2017-05-17T15:18:55.000Z"><a href="/2017/05/17/do-not-do-pseudo-workers/">2017-05-17</a></time>
-            
-              <h1 class="title"><a href="/2017/05/17/do-not-do-pseudo-workers/"></a></h1>
-            
-          </header>
-        </div>
-      </article>
-    
-      <article class="post">
-        <div class="post-content">
-          <header>
-            <div class="icon"></div>
-            <time datetime="2017-05-12T01:41:43.000Z"><a href="/2017/05/12/flask-migrate-mysql-rename-table-and-rename-field/">2017-05-12</a></time>
-            
-              <h1 class="title"><a href="/2017/05/12/flask-migrate-mysql-rename-table-and-rename-field/"></a></h1>
-            
-          </header>
-        </div>
-      </article>
-    
-      <article class="post">
-        <div class="post-content">
-          <header>
-            <div class="icon"></div>
-            <time datetime="2017-05-09T06:29:40.000Z"><a href="/2017/05/09/caddy-introduction/">2017-05-09</a></time>
-            
-              <h1 class="title"><a href="/2017/05/09/caddy-introduction/"></a></h1>
-            
-          </header>
-        </div>
-      </article>
+      <img src="">
     
   </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2017-05-18T16:07:12.000Z"><a href="/2017/05/18/domain-driven-design-learning-1/">2017-05-18</a></time>
+      
+      
+  
+    <h1 class="title"></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h1 id="领域驱动设计学习1"><a href="#领域驱动设计学习（1）" class="headerlink" title="领域驱动设计学习（1）"></a>领域驱动设计学习（1）</h1><p>今天学习了领域驱动设计的导学，算是对DDD（Domain Driven Design）有了一个初步的认识。下面是学习中归纳的一些信息，主要围绕六个问题展开。</p>
+<blockquote>
+<ul>
+<li>1.什么是DDD</li>
+<li>2.DDD解决了什么问题</li>
+<li>3.领域如何划分</li>
+<li>4.聚合和领域之间的关系</li>
+<li>5.战略建模与战术建模谁更重要</li>
+<li>6.ORM与领域建模</li>
+</ul>
+</blockquote>
+<h2 id="1什么是ddd"><a href="#1-什么是DDD" class="headerlink" title="1.什么是DDD"></a>1.什么是DDD</h2><p>Domain Driven Design，领域驱动设计，那么什么是领域呢？领域就是业务，这里的领域是分层的。大致可以分为：实体、值对象、聚合、领域服务和领域事件等。</p>
+<h2 id="2ddd解决了什么问题"><a href="#2-DDD解决了什么问题" class="headerlink" title="2.DDD解决了什么问题"></a>2.DDD解决了什么问题</h2><p>解决软件的复杂性问题。</p>
+<h2 id="3领域如何划分"><a href="#3-领域如何划分" class="headerlink" title="3.领域如何划分"></a>3.领域如何划分</h2><p>按功能划分</p>
+<h2 id="4聚合和领域之间的关系"><a href="#4-聚合和领域之间的关系" class="headerlink" title="4.聚合和领域之间的关系"></a>4.聚合和领域之间的关系</h2><p>聚合是领域的核心概念，在领域驱动设计中，大的对象实体是由小的对象实体聚合起来的。在想要访问某个小的对象实体时，需要以大的对象实体为入口进行访问。这规定了对象之间的边界，避免了一个对象被很多地方混乱的调用的情况，降低模型的复杂度。（很拗口，不知能不能被理解）</p>
+<h2 id="5战略建模和战术建模谁更重要"><a href="#5-战略建模和战术建模谁更重要" class="headerlink" title="5.战略建模和战术建模谁更重要"></a>5.战略建模和战术建模谁更重要</h2><p>当然，两个都很重要。但是，可以确定的一点就是，战术更难。讲到战术和战略，就不得不提领域驱动设计经典的两本书。<br>第一本是04年出版的DDD，它全书是以自下向上的方式写的，从细节的战术开始写，一直到第四部分，才讲到战略。当然，这是因为年代的不同，04年的时候流行自下向上的开发方式。<br>第二本是13年出版的IDDD，实现领域驱动设计，它采用的是自顶下下的方式，从战略开始写，后面才讲到战术。当然，这是有原因的。到了13年，微服务开始兴起，因此小公司也可以先考虑战略，将整个软件分为几个微服务模块进行开发。<br>上面两本书的区别也会影响到学习DDD时，如何阅读这两本书的顺序。这个之后再谈。</p>
+<h2 id="6orm与领域建模"><a href="#6-ORM与领域建模" class="headerlink" title="6.ORM与领域建模"></a>6.ORM与领域建模</h2><p>ORM和领域建模不是一个东西。ORM其实就是DAO（data access object），它最多跟领域模型最底部的Repository概念类似，且也不全然相同。可以这么说，Repository可以用ORM实现，但ORM并不是repository。</p>
+<p>上述是根据本次技术交流做的总结，有问题请指出，祝进步。<br><a href="http://yaoel.com" target="_blank" rel="external">yaoel</a><br>2017年5月19日</p>
+<p>参考：<br>1.<a href="https://www.amazon.cn/dp/B01GZ6T12K/ref=cngwdyfloorv2_recs_0?pf_rd_p=7645736c-6759-4677-9dfb-2a3fd04770aa&amp;pf_rd_s=desktop-2&amp;pf_rd_t=36701&amp;pf_rd_i=desktop&amp;pf_rd_m=A1AJ19PSB66TGU&amp;pf_rd_r=MAEG7SHMD36E23PTFMWH&amp;pf_rd_r=MAEG7SHMD36E23PTFMWH&amp;pf_rd_p=7645736c-6759-4677-9dfb-2a3fd04770aa" target="_blank" rel="external">领域驱动设计</a><br>2.<a href="https://www.amazon.cn/dp/B00IYTVWA6/ref=cngwdyfloorv2_recs_0?pf_rd_p=7645736c-6759-4677-9dfb-2a3fd04770aa&amp;pf_rd_s=desktop-2&amp;pf_rd_t=36701&amp;pf_rd_i=desktop&amp;pf_rd_m=A1AJ19PSB66TGU&amp;pf_rd_r=MAEG7SHMD36E23PTFMWH&amp;pf_rd_r=MAEG7SHMD36E23PTFMWH&amp;pf_rd_p=7645736c-6759-4677-9dfb-2a3fd04770aa" target="_blank" rel="external">实现领域驱动设计</a><br>3.<a href="https://github.com/zkavtaskin/Domain-Driven-Design-Example" target="_blank" rel="external">Domain-Driven-Design-Example</a></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+<section id="comment">
+
+<!-- 多说评论框 start -->
+    <div class="ds-thread" data-thread-key=0 data-title=0 data-url=0></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"ipyjs"};
+    (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+    </script>
+<!-- 多说公共JS代码 end -->
+ <nav id="pagination" >
+    
+    
+    <a href="/2017/05/18/traefik-http-server-closed-idle-connection/" class="alignright next" >下一页</a>
+    
+    <div class="clearfix"></div>
+</nav>
+</section>
+
+
 </div></div>
     <aside id="sidebar" class="alignright">
   <div class="search">

@@ -249,6 +249,59 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2016-06-22T15:04:19.000Z"><a href="/2016/06/22/how-to-use-flash-to-prompt-in-the-flash-jinja2/">2016-06-22</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2016/06/22/how-to-use-flash-to-prompt-in-the-flash-jinja2/">在flask中如何使用jinja2中的Flash来进行提示</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h1 id="jinja2模板中的写法"><a href="#jinja2模板中的写法" class="headerlink" title="jinja2模板中的写法"></a>jinja2模板中的写法</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&#123;%- with messages = get_flashed_messages(with_categories=true) -%&#125;</div><div class="line">&#123;%- if messages -%&#125;</div><div class="line">    &#123;%- for category, message in messages -%&#125;</div><div class="line">        &lt;div class=&quot;alert alert-&#123;&#123; category &#125;&#125;&quot;&gt;</div><div class="line">            &lt;button type=&quot;button&quot; class=&quot;close&quot; data-dismiss=&quot;alert&quot;&gt;&amp;times;&lt;/button&gt;</div><div class="line">            &#123;&#123; message &#125;&#125;</div><div class="line">        &lt;/div&gt;</div><div class="line">    &#123;%- endfor -%&#125;</div><div class="line">&#123;%- endif -%&#125;</div></pre></td></tr></table></figure>
+<h1 id="调用方式"><a href="#调用方式" class="headerlink" title="调用方式"></a>调用方式</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">flash(&quot;用户名已存在&quot;, category=&apos;warning&apos;)</div><div class="line">flash(&quot;注册成功&quot;, category=&apos;success&apos;)</div></pre></td></tr></table></figure>
+<p>category可选：’message’、’error’、’info’、’warning’、’success’</p>
+<p>参考：</p>
+<ol>
+<li><a href="http://stackoverflow.com/questions/18396936/flask-flash-function-ignoring-the-category-argument" target="_blank" rel="external">Flash</a></li>
+</ol>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+
+
+  <article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2016-06-05T02:16:29.000Z"><a href="/2016/06/05/Flask-SQLALchemy-dynamic-filter-by-and-filter/">2016-06-05</a></time>
       
       
