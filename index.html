@@ -249,6 +249,57 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2018-03-21T03:31:00.000Z"><a href="/2018/03/21/modify-ubuntu-pip-source/">2018-03-21</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2018/03/21/modify-ubuntu-pip-source/">修改ubuntu系统中的pip源</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="修改ubuntu系统中的pip源"><a href="#修改ubuntu系统中的pip源" class="headerlink" title="修改ubuntu系统中的pip源"></a>修改ubuntu系统中的pip源</h2><h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>在自己购买的阿里云服务器上使用virtualenv创建虚拟环境时出现如下错误</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div></pre></td><td class="code"><pre><div class="line">root@iZbp1bb1rjtnkgzsfcc3tiZ:~/learning/tornado_learning# virtualenv venv</div><div class="line">Running virtualenv with interpreter /usr/bin/python2</div><div class="line">New python executable in /root/learning/tornado_learning/venv/bin/python2</div><div class="line">Not overwriting existing python script /root/learning/tornado_learning/venv/bin/python (you must use /root/learning/tornado_learning/venv/bin/python2)</div><div class="line">Please make sure you remove any previous custom paths from your /root/.pydistutils.cfg file.</div><div class="line">Installing setuptools, pkg_resources, pip, wheel...</div><div class="line">  Complete output from command /root/learning/torna...ing/venv/bin/python2 - setuptools pkg_resources pip wheel:</div><div class="line">  Collecting setuptools</div><div class="line">  Downloading http://mirrors.aliyun.com/pypi/packages/20/d7/04a0b689d3035143e2ff288f4b9ee4bf6ed80585cc121c90bfd85a1a8c2e/setuptools-39.0.1-py2.py3-none-any.whl (569kB)</div><div class="line">Collecting pkg_resources</div><div class="line">Exception:</div><div class="line">Traceback (most recent call last):</div><div class="line">  File &quot;/usr/share/python-wheels/pip-8.1.1-py2.py3-none-any.whl/pip/basecommand.py&quot;, line 209, in main</div><div class="line">    status = self.run(options, args)</div><div class="line">  File &quot;/usr/share/python-wheels/pip-8.1.1-py2.py3-none-any.whl/pip/commands/install.py&quot;, line 328, in run</div><div class="line">    wb.build(autobuilding=True)</div><div class="line">  File &quot;/usr/share/python-wheels/pip-8.1.1-py2.py3-none-any.whl/pip/wheel.py&quot;, line 748, in build</div><div class="line">    self.requirement_set.prepare_files(self.finder)</div><div class="line">  File &quot;/usr/share/python-wheels/pip-8.1.1-py2.py3-none-any.whl/pip/req/req_set.py&quot;, line 360, in prepare_files</div><div class="line">    ignore_dependencies=self.ignore_dependencies))</div><div class="line">  File &quot;/usr/share/python-wheels/pip-8.1.1-py2.py3-none-any.whl/pip/req/req_set.py&quot;, line 512, in _prepare_file</div><div class="line">    finder, self.upgrade, require_hashes)</div><div class="line">  File &quot;/usr/share/python-wheels/pip-8.1.1-py2.py3-none-any.whl/pip/req/req_install.py&quot;, line 273, in populate_link</div><div class="line">    self.link = finder.find_requirement(self, upgrade)</div><div class="line">  File &quot;/usr/share/python-wheels/pip-8.1.1-py2.py3-none-any.whl/pip/index.py&quot;, line 442, in find_requirement</div><div class="line">    all_candidates = self.find_all_candidates(req.name)</div><div class="line">  File &quot;/usr/share/python-wheels/pip-8.1.1-py2.py3-none-any.whl/pip/index.py&quot;, line 400, in find_all_candidates</div><div class="line">    for page in self._get_pages(url_locations, project_name):</div><div class="line">  File &quot;/usr/share/python-wheels/pip-8.1.1-py2.py3-none-any.whl/pip/index.py&quot;, line 545, in _get_pages</div><div class="line">    page = self._get_page(location)</div><div class="line">  File &quot;/usr/share/python-wheels/pip-8.1.1-py2.py3-none-any.whl/pip/index.py&quot;, line 648, in _get_page</div><div class="line">    return HTMLPage.get_page(link, session=self.session)</div><div class="line">  File &quot;/usr/share/python-wheels/pip-8.1.1-py2.py3-none-any.whl/pip/index.py&quot;, line 760, in get_page</div><div class="line">    resp.raise_for_status()</div><div class="line">  File &quot;/root/learning/tornado_learning/venv/share/python-wheels/requests-2.9.1-py2.py3-none-any.whl/requests/models.py&quot;, line 840, in raise_for_status</div><div class="line">    raise HTTPError(http_error_msg, response=self)</div><div class="line">HTTPError: 404 Client Error: Not Found for url: http://mirrors.aliyun.com/pypi/simple/pkg-resources/</div><div class="line">----------------------------------------</div><div class="line">...Installing setuptools, pkg_resources, pip, wheel...done.</div><div class="line">Traceback (most recent call last):</div><div class="line">  File &quot;/usr/lib/python3/dist-packages/virtualenv.py&quot;, line 2363, in &lt;module&gt;</div><div class="line">    main()</div><div class="line">  File &quot;/usr/lib/python3/dist-packages/virtualenv.py&quot;, line 719, in main</div><div class="line">    symlink=options.symlink)</div><div class="line">  File &quot;/usr/lib/python3/dist-packages/virtualenv.py&quot;, line 988, in create_environment</div><div class="line">    download=download,</div><div class="line">  File &quot;/usr/lib/python3/dist-packages/virtualenv.py&quot;, line 918, in install_wheel</div><div class="line">    call_subprocess(cmd, show_stdout=False, extra_env=env, stdin=SCRIPT)</div><div class="line">  File &quot;/usr/lib/python3/dist-packages/virtualenv.py&quot;, line 812, in call_subprocess</div><div class="line">    % (cmd_desc, proc.returncode))</div><div class="line">OSError: Command /root/learning/torna...ing/venv/bin/python2 - setuptools pkg_resources pip wheel failed with error code 2</div></pre></td></tr></table></figure>
+<p>分析发现，原因是访问阿里云的pip源地址报错<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">HTTPError: 404 Client Error: Not Found for url: http://mirrors.aliyun.com/pypi/simple/pkg-resources/</div></pre></td></tr></table></figure></p>
+<p>解决方案：<br>1.进入pip的配置文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">vi ~/.pip/pip.conf</div><div class="line"></div><div class="line"># 显示如下</div><div class="line">[global]</div><div class="line">index-url=http://mirrors.aliyun.com/pypi/simple/</div><div class="line"></div><div class="line">[install]</div><div class="line">trusted-host=mirrors.aliyun.com</div></pre></td></tr></table></figure></p>
+<p>2.修改为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">[global]</div><div class="line">index-url = https://pypi.doubanio.com/simple</div><div class="line"></div><div class="line">[install]</div><div class="line">trusted-host=pypi.doubanio.com</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+
+
+  <article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2017-05-18T16:07:12.000Z"><a href="/2017/05/18/domain-driven-design-learning-1/">2017-05-18</a></time>
       
       
@@ -447,77 +498,6 @@
 <h2 id="枚举类型字段增加枚举可选值"><a href="#枚举类型字段增加枚举可选值" class="headerlink" title="枚举类型字段增加枚举可选值"></a>枚举类型字段增加枚举可选值</h2><p>当对枚举类型字段增加枚举可选值时，使用Flask-Migrate进行migrate不会检测到改动，所以需要手动写脚本。语法如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">op.alter_column(&apos;label_print_rules&apos;, &apos;template_type&apos;, </div><div class="line">                existing_type=sa.Enum(&apos;single_box&apos;, &apos;all_box&apos;, &apos;pick&apos;, &apos;putaway&apos;,</div><div class="line">                                      &apos;stockin&apos;, &apos;stockout&apos;, &apos;delivery&apos;),</div><div class="line">                type_=sa.Enum(&apos;single_box&apos;, &apos;all_box&apos;, &apos;pick&apos;, &apos;putaway&apos;,</div><div class="line">                              &apos;stockin&apos;, &apos;stockout&apos;, &apos;delivery&apos;, &apos;single_picking_label&apos;,</div><div class="line">                              &apos;multi_picking_label&apos;, &apos;order_picking_label&apos;),</div><div class="line">                server_default=&apos;single_box&apos;)</div></pre></td></tr></table></figure></p>
 <p>作者 <a href="http://yaoel.com" target="_blank" rel="external">@yaoel</a><br>2017 年 05月 09日 </p>
 <p>参考：<br>1.<a href="http://nullege.com/codes/search/alembic.op.rename_table" target="_blank" rel="external">alembic.op.rename_table</a><br>2.<a href="http://www.crifan.com/flask_migrate_upgrade_mysql_rename_not_remove_column/" target="_blank" rel="external">Flask-Migrate升级MySQL字段时能否重命名而非删除后新建</a></p>
-
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-
-
-  <article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2017-05-09T06:29:40.000Z"><a href="/2017/05/09/caddy-introduction/">2017-05-09</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2017/05/09/caddy-introduction/"></a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <h1 id="caddy简介"><a href="#caddy简介" class="headerlink" title="caddy简介"></a>caddy简介</h1><p>什么是caddy？一个类似Nginx的东西。<br>最近在折腾将部署在github上的hexo博客迁移到自己的服务器上。偶然间知道了caddy这个神器，<strong>真的是一键部署博客</strong>。<br>由于服务器是ubuntu 16.04版本的，下面是基于此版本进行的。</p>
-<p>caddy的好处：</p>
-<blockquote>
-<ul>
-<li>一键启动</li>
-<li>一键https</li>
-<li>各种方便的配置</li>
-</ul>
-</blockquote>
-<h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><p>到<a href="https://caddyserver.com/download" target="_blank" rel="external">caddy官网下载页面</a>下载对应版本。然后使用scp将压缩文件拷贝到自己服务器。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">scp ./caddy*.tar.gz  root@xx.xx.xx.xx:/path/to/place/caddy***.tar.gz</div></pre></td></tr></table></figure>
-<p>##解压，然后将可执行文件拷贝在对应bin目录下（全局可运行）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">tar -xzf caddy*.tar.gz caddy</div><div class="line">mv ./caddy /usr/local/bin</div></pre></td></tr></table></figure>
-<h2 id="进入你的博客目录运行"><a href="#进入你的博客目录运行" class="headerlink" title="进入你的博客目录运行"></a>进入你的博客目录运行</h2><p>注意要有index.html文件，如果没有回报错</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">cd /your/blog/path</div><div class="line">caddy</div></pre></td></tr></table></figure>
-<p>然后在服务器的2015端口就可访问博客。</p>
-<p>##配置域名</p>
-<p>1.要讲yaofeng.org域名解析到对应服务器的ip地址；2.在此过程中会提示为你自动设置https，但是需要你输入此域名拥有者的登记邮箱。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">caddy -host yaofeng.org</div></pre></td></tr></table></figure>
-<p>看到<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Activating privacy features... done.</div><div class="line">https://yaofeng.org</div><div class="line">http://yaofeng.org</div></pre></td></tr></table></figure></p>
-<p>表示https设置成功。</p>
-<h2 id="caddyfile"><a href="#Caddyfile" class="headerlink" title="Caddyfile"></a>Caddyfile</h2><p>为了方便配置，可以将所有的配置信息都写入Caddyfile文件<br>可以通过<figure class="highlight plain"><figcaption><span>"yaofeng.org" > Caddyfile```达到上述一样的效果。</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">在运行caddy命令时，也可以通过-conf参数设置对应Caddyfile配置文件的所在目录：```caddy -conf ../path/to/Caddyfile</div></pre></td></tr></table></figure></p>
-<p>也可以在一个Caddyfile中设置多个域名的解析</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">yaofeng.org &#123;</div><div class="line">        root    /www/yaofeng.org</div><div class="line">&#125;</div><div class="line"></div><div class="line">sub.yaofeng.org &#123;</div><div class="line">        root    /www/sub.yaofeng.org</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>over</p>
 
       
     </div>

@@ -249,6 +249,139 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2016-07-17T08:05:20.000Z"><a href="/2016/07/17/Introduction-to-DNS-principle/">2016-07-17</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2016/07/17/Introduction-to-DNS-principle/">DNS原理入门</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>DNS是互联网核心协议之一。</p>
+<h1 id="一-dns是什么"><a href="#一、DNS是什么？" class="headerlink" title="一、DNS是什么？"></a>一、DNS是什么？</h1><p>DNS（Domain Name System）的作用非常简单，就是根据域名查出IP地址。你可以把它想象成一本巨大的电话本。</p>
+<p>如果你想要访问域名fengyao.me，首先要通过DNS查出它的IP地址是192.30.252.154。</p>
+<h1 id="二-查询过程"><a href="#二、查询过程" class="headerlink" title="二、查询过程"></a>二、查询过程</h1><p>虽然只需要返回一个IP地址，但是DNS的查询过程非常复杂，分成多个步骤。工具dig可以显示整个查询过程。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$dig fengyao.me</div></pre></td></tr></table></figure>
+<p>上面的命令会输出六段信息。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">; &lt;&lt;&gt;&gt; DiG 9.8.3-P1 &lt;&lt;&gt;&gt; fengyao.me</div><div class="line">;; global options: +cmd</div><div class="line">;; Got answer:</div><div class="line">;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 1980</div><div class="line">;; flags: qr rd ra; QUERY: 1, ANSWER: 2, AUTHORITY: 2, ADDITIONAL: 6</div><div class="line"></div><div class="line">;; QUESTION SECTION:</div><div class="line">;fengyao.me.            IN    A</div><div class="line"></div><div class="line">;; ANSWER SECTION:</div><div class="line">fengyao.me.        3454    IN    A    192.30.252.154</div><div class="line">fengyao.me.        3454    IN    A    192.30.252.153</div><div class="line"></div><div class="line">;; AUTHORITY SECTION:</div><div class="line">fengyao.me.        86254    IN    NS    dns10.hichina.com.</div><div class="line">fengyao.me.        86254    IN    NS    dns9.hichina.com.</div><div class="line"></div><div class="line">;; ADDITIONAL SECTION:</div><div class="line">dns9.hichina.com.    3040    IN    A    42.120.221.13</div><div class="line">dns9.hichina.com.    3040    IN    A    140.205.81.13</div><div class="line">dns9.hichina.com.    3040    IN    A    140.205.228.13</div><div class="line">dns10.hichina.com.    85275    IN    A    140.205.81.23</div><div class="line">dns10.hichina.com.    85275    IN    A    140.205.228.23</div><div class="line">dns10.hichina.com.    85275    IN    A    42.120.221.23</div><div class="line"></div><div class="line">;; Query time: 6 msec</div><div class="line">;; SERVER: 192.168.3.1#53(192.168.3.1)</div><div class="line">;; WHEN: Sun Jul 17 14:29:36 2016</div><div class="line">;; MSG SIZE  rcvd: 206</div></pre></td></tr></table></figure>
+<p>第一段是查询参数和统计：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">; &lt;&lt;&gt;&gt; DiG 9.8.3-P1 &lt;&lt;&gt;&gt; fengyao.me</div><div class="line">;; global options: +cmd</div><div class="line">;; Got answer:</div><div class="line">;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 1980</div><div class="line">;; flags: qr rd ra; QUERY: 1, ANSWER: 2, AUTHORITY: 2, ADDITIONAL: 6</div></pre></td></tr></table></figure>
+<p>第二段是查询内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">;; QUESTION SECTION:</div><div class="line">;fengyao.me.            IN    A</div></pre></td></tr></table></figure>
+<p>上面结果显示，查询域名fengyao.me的A记录，A是address的缩写。</p>
+<p>第三段是DNS服务器的答复。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">;; ANSWER SECTION:</div><div class="line">fengyao.me.        3454    IN    A    192.30.252.154</div><div class="line">fengyao.me.        3454    IN    A    192.30.252.153</div></pre></td></tr></table></figure>
+<p>上面结果显示，fengyao.me有两个A记录，即两个IP地址。3454是TTL值（Time to live的缩写），表示缓存时间，即3454秒之内不用重新查询。</p>
+<p>第四段表示fengyao.me的NS记录（Name Server的缩写），即哪些服务器负责管理fengyao.me的DNS记录。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">;; AUTHORITY SECTION:</div><div class="line">fengyao.me.        86254    IN    NS    dns10.hichina.com.</div><div class="line">fengyao.me.        86254    IN    NS    dns9.hichina.com.</div></pre></td></tr></table></figure>
+<p>上面结果显示fengyao.me共有两条NS记录，即两个域名服务器，向其中任一台查询就知道fengyao.me的IP地址是什么。</p>
+<p>第五段是上面两个域名服务器的IP地址，这是随着前一段一起返回的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">;; ADDITIONAL SECTION:</div><div class="line">dns9.hichina.com.    3040    IN    A    42.120.221.13</div><div class="line">dns9.hichina.com.    3040    IN    A    140.205.81.13</div><div class="line">dns9.hichina.com.    3040    IN    A    140.205.228.13</div><div class="line">dns10.hichina.com.    85275    IN    A    140.205.81.23</div><div class="line">dns10.hichina.com.    85275    IN    A    140.205.228.23</div><div class="line">dns10.hichina.com.    85275    IN    A    42.120.221.23</div></pre></td></tr></table></figure>
+<p>第六段是DNS服务器的一些传输信息。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">;; Query time: 6 msec</div><div class="line">;; SERVER: 192.168.3.1#53(192.168.3.1)</div><div class="line">;; WHEN: Sun Jul 17 14:29:36 2016</div><div class="line">;; MSG SIZE  rcvd: 206</div></pre></td></tr></table></figure>
+<p>上面的结果显示，本机的DNS服务器是192.168.3.1，查询端口是53（DNS服务器的默认端口），以及回应长度是206字节。</p>
+<p>如果不想看这么多内容，可以使用+short参数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ dig +short fengyao.me</div><div class="line">192.30.252.153</div><div class="line">192.30.252.154</div></pre></td></tr></table></figure>
+<p>上面命令只返回fengyao.me对应的两个IP地址（即A记录）。</p>
+<h1 id="三-dns服务器"><a href="#三、DNS服务器" class="headerlink" title="三、DNS服务器"></a>三、DNS服务器</h1><p>下面我会根据前面这个例子，一步步还原，本机到底是怎么得到域名fengyao.me的IP地址。<br>首先，本机一定要知道DNS服务器的IP地址，否则上不了网。通过DNS服务器，才能知道某个域名的IP地址到底是什么。</p>
+<p>DNS服务器的IP地址，有可能是动态的，每次上网时由网关分配，这叫做DHCP机制；也有可能是事先指定的固定地址。Linux系统中里面，DNS服务器的IP地址保存在/etc/resolv.conf文件。</p>
+<p>上面的DNS服务器是192.168.3.1，这是一个内网地址。有一些公网的DNS服务器，也可以使用，其中最有名的就是google的8.8.8.8和Level 3的4.2.2.2.</p>
+<p>本机只向自己的DNS服务器查询，dig命令有一个@参数，显示向其他DNS服务器查询的结果。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ dig @4.2.2.2 fengyao.me</div></pre></td></tr></table></figure>
+<p>上面的指令向DNS服务器4.2.2.2查询：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">; &lt;&lt;&gt;&gt; DiG 9.8.3-P1 &lt;&lt;&gt;&gt; @4.2.2.2 fengyao.me</div><div class="line">; (1 server found)</div><div class="line">;; global options: +cmd</div><div class="line">;; Got answer:</div><div class="line">;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 39511</div><div class="line">;; flags: qr rd ra; QUERY: 1, ANSWER: 2, AUTHORITY: 0, ADDITIONAL: 0</div><div class="line"></div><div class="line">;; QUESTION SECTION:</div><div class="line">;fengyao.me.            IN    A</div><div class="line"></div><div class="line">;; ANSWER SECTION:</div><div class="line">fengyao.me.        600    IN    A    192.30.252.153</div><div class="line">fengyao.me.        600    IN    A    192.30.252.154</div><div class="line"></div><div class="line">;; Query time: 626 msec</div><div class="line">;; SERVER: 4.2.2.2#53(4.2.2.2)</div><div class="line">;; WHEN: Sun Jul 17 14:45:27 2016</div><div class="line">;; MSG SIZE  rcvd: 60</div></pre></td></tr></table></figure>
+<h1 id="四-域名的层级"><a href="#四、域名的层级" class="headerlink" title="四、域名的层级"></a>四、域名的层级</h1><p>DNS服务器怎么会知道每个域名的IP地址呢？答案是分级查询。<br>请仔细看前面的例子，每个域名的尾部都多了一个点。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">;; QUESTION SECTION:</div><div class="line">;fengyao.me.            IN    A</div></pre></td></tr></table></figure>
+<p>比如，域名fengyao.me显示为fengyao.me.。<br>这不是疏忽，而是所有域名的尾部，实际上都有一个根域名。</p>
+<p>举例来说，www.example.com真正的域名是www.example.com.root，所以简写为www.example.com.。因为，根域名.root对于所有域名都是一样，所以平时是省略的。</p>
+<p>根域名的下一级，叫做“顶级域名”（top-level domain，缩写为TLD），比如.com、.net、.me；再下一级叫做“次级域名”（second-level domain，缩写为SLD），比如www.example.com里面的.example，这一级域名是用户可以注册的；再下一级是主机名（host），比如www.example.com里面的www，又称为“三级域名”，这是用户在自己的域名里面为服务器分配的名字，是用户可以任意分配的。</p>
+<p>总结一下，域名的层级结构如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">主机名.次级域名.顶级域名.根域名</div><div class="line">即</div><div class="line">host.sld.tld.root</div></pre></td></tr></table></figure>
+<h1 id="五-根域名服务器"><a href="#五、根域名服务器" class="headerlink" title="五、根域名服务器"></a>五、根域名服务器</h1><p>DNS服务器根据域名的层次，进行分级查询。</p>
+<p>需要明确的是，每一级域名都有自己的NS记录，NS记录指向该级域名服务器。这些服务器知道下一级域名的各种记录。</p>
+<p>所谓’分级查询’，就是从根域名开始，依次查询每一级域名的NS记录，直到查到最终的IP地址，过程大致如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">1.从’根域名服务器’查到’顶级域名服务器’的NS记录和A记录（IP地址）</div><div class="line">2.从’顶级域名服务器’查到’次级域名服务器’的NS记录和A记录（IP地址）</div><div class="line">3.从’次级域名服务器’查出’主机名’的IP地址</div></pre></td></tr></table></figure>
+<p>仔细看上面的过程，没有提到DNS服务器怎么知道“根域名服务器”的IP地址。回答是“根域名服务器”的NS记录和IP地址一般是不会变化的，所以内置在DNS服务器里面。<br>世界上一共有13组根域名服务器，从A.ROOT-SERVERS.NET一直到M.ROOT-SERVERS.NET</p>
+<h1 id="六-分级查询的实例"><a href="#六、分级查询的实例" class="headerlink" title="六、分级查询的实例"></a>六、分级查询的实例</h1><p>dig命令的+trace参数可以显示DNS的整个分级查询过程。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$dig +trace fengyao.me</div></pre></td></tr></table></figure>
+<p>上面命令的第一段列出根域名.的所有NS记录，即所有根域名服务器。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">; &lt;&lt;&gt;&gt; DiG 9.8.3-P1 &lt;&lt;&gt;&gt; +trace fengyao.me</div><div class="line">;; global options: +cmd</div><div class="line">.            51457    IN    NS    h.root-servers.net.</div><div class="line">.            51457    IN    NS    a.root-servers.net.</div><div class="line">.            51457    IN    NS    m.root-servers.net.</div><div class="line">.            51457    IN    NS    e.root-servers.net.</div><div class="line">.            51457    IN    NS    f.root-servers.net.</div><div class="line">.            51457    IN    NS    c.root-servers.net.</div><div class="line">.            51457    IN    NS    k.root-servers.net.</div><div class="line">.            51457    IN    NS    l.root-servers.net.</div><div class="line">.            51457    IN    NS    g.root-servers.net.</div><div class="line">.            51457    IN    NS    d.root-servers.net.</div><div class="line">.            51457    IN    NS    i.root-servers.net.</div><div class="line">.            51457    IN    NS    j.root-servers.net.</div><div class="line">.            51457    IN    NS    b.root-servers.net.</div><div class="line">;; Received 496 bytes from 192.168.3.1#53(192.168.3.1) in 80 ms</div></pre></td></tr></table></figure>
+<p>根据内置的根域名服务器IP地址，DNS服务器向所有这些IP地址发出查询请求，询问fengyao.me的顶级域名服务器me.的NS记录。最先回复的根域名服务器将被缓存，以后只向这台服务器发请求。</p>
+<p>接着是第二段：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">me.            172800    IN    NS    a0.cctld.afilias-nst.info.</div><div class="line">me.            172800    IN    NS    a2.me.afilias-nst.info.</div><div class="line">me.            172800    IN    NS    b0.cctld.afilias-nst.org.</div><div class="line">me.            172800    IN    NS    b2.me.afilias-nst.org.</div><div class="line">me.            172800    IN    NS    c0.cctld.afilias-nst.info.</div><div class="line">me.            172800    IN    NS    d0.cctld.afilias-nst.org.</div><div class="line">me.            172800    IN    NS    ns.nic.me.</div><div class="line">me.            172800    IN    NS    ns2.nic.me.</div><div class="line">;; Received 486 bytes from 198.97.190.53#53(198.97.190.53) in 468 ms</div></pre></td></tr></table></figure>
+<p>上面的结果显示.me域名有8条NS记录，同时返回的还有每一条记录对应的IP地址。</p>
+<p>然后，DNS服务器向这些顶级域名发出查询请求，询问fengyao.me的次级域名fengyao.me的NS记录。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">fengyao.me.        86400    IN    NS    dns9.hichina.com.</div><div class="line">fengyao.me.        86400    IN    NS    dns10.hichina.com.</div><div class="line">;; Received 78 bytes from 89.188.44.44#53(89.188.44.44) in 324 ms</div></pre></td></tr></table></figure>
+<p>上面的结果显示fengyao.me有两条NS记录，同时返回的还有每一条NS记录对应的IP地址。</p>
+<p>然后，DNS服务器向这两台NS服务器查询fengyao.me的主机名。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">fengyao.me.        600    IN    A    192.30.252.154</div><div class="line">fengyao.me.        600    IN    A    192.30.252.153</div><div class="line">;; Received 60 bytes from 140.205.228.13#53(140.205.228.13) in 4 ms</div></pre></td></tr></table></figure>
+<p>上面的结果显示，fengyao.me有两条A记录，即这两个IP地址都可以访问到网站，并且还表示，最先返回结果的NS服务器是140.205.228.13。</p>
+<h1 id="七-ns记录的查询"><a href="#七、NS记录的查询" class="headerlink" title="七、NS记录的查询"></a>七、NS记录的查询</h1><p>dig命令可以单独查看每一级域名的NS记录。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$dig ns me</div><div class="line">$dig ns fengyao.me</div></pre></td></tr></table></figure>
+<p>+short参数可以显示简化的结果。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ dig +short ns me</div><div class="line">$ dig +short ns fengyao.me</div></pre></td></tr></table></figure>
+<h1 id="八-dns的记录类型"><a href="#八、DNS的记录类型" class="headerlink" title="八、DNS的记录类型"></a>八、DNS的记录类型</h1><p>域名与IP之间的对应关系，成为’记录’（record）。根据使用场景，“记录”可以分为不同的类型（type），前面已经看到了A记录和NS记录。</p>
+<p>常见的DNS记录类型如下；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">（1）A：地址记录（Address），返回域名指向的IP地址。</div><div class="line">（2）NS：域名服务器记录（Name Server），返回保存下一级域名信息的服务器地址。该记录只能设置为域名，不能设置为IP地址。</div><div class="line">（3）MX：邮件记录（Mail eXchange），返回接收电子邮件的服务器地址。</div><div class="line">（4）CNAME：规范名称记录（Canonical Name），返回另一个域名，即当前查询的域名是另一个域名的跳转，详见下页。</div><div class="line">（5）PRT：逆向查询记录（Pointer Record），只用于从IP地址查询域名，详见下页。</div></pre></td></tr></table></figure>
+<p>一般来说，为了服务的安全可靠，至少应该有两条NS记录，而A记录和MX记录也可能有多条，这样就提供了服务的冗余性，防止出现单点失败。</p>
+<p>CNAME记录主要用于域名的内部跳转，为服务器配置提供灵活性，用户感知不到。举例来说，yaoelvon.github.io这个域名就是一个CNAME记录。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">$ dig yaoelvon.github.io</div><div class="line"></div><div class="line">; &lt;&lt;&gt;&gt; DiG 9.8.3-P1 &lt;&lt;&gt;&gt; yaoelvon.github.io</div><div class="line">;; global options: +cmd</div><div class="line">;; Got answer:</div><div class="line">;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 8518</div><div class="line">;; flags: qr rd ra; QUERY: 1, ANSWER: 3, AUTHORITY: 0, ADDITIONAL: 0</div><div class="line"></div><div class="line">;; QUESTION SECTION:</div><div class="line">;yaoelvon.github.io.        IN    A</div><div class="line"></div><div class="line">;; ANSWER SECTION:</div><div class="line">yaoelvon.github.io.    3600    IN    CNAME    github.map.fastly.net.</div><div class="line">github.map.fastly.net.    3600    IN    CNAME    prod.github.map.fastlylb.net.</div><div class="line">prod.github.map.fastlylb.net. 3600 IN    A    151.101.100.133</div><div class="line"></div><div class="line">;; Query time: 768 msec</div><div class="line">;; SERVER: 192.168.3.1#53(192.168.3.1)</div><div class="line">;; WHEN: Sun Jul 17 15:31:48 2016</div><div class="line">;; MSG SIZE  rcvd: 126</div></pre></td></tr></table></figure>
+<p>上面结果显示，yaoelvon.github.io的CNAME指向github.map.fastly.net。也就是说，用户查询yaoelvon.github.io的时候，实际上返回的是github.map.fastly.net的IP地址。这样的好处是，变更服务器IP时，只要修改github.map.fastly.net这个域名就可以了，用户的yaoelvon.github.io域名不用修改。</p>
+<p>由于CNAME记录就是一个替换，所以域名一旦设置CNAME记录后，就不能再设置其他记录了（比如A记录和MX记录），这是为了防止产生冲突。举例来说，foo.com指向bar.com，而两个域名各有自己的MX记录，如果两者不一致，就会产生问题。由于顶级域名通常要设置MX记录，所以一般不允许用户对顶级域名设置CNAME记录。</p>
+<p>PTR记录用于从IP地址反查域名。dig命令的-x参数用于查询PTR记录。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">dig -x 192.30.252.153</div><div class="line">...</div><div class="line">;; ANSWER SECTION:</div><div class="line">153.252.30.192.in-addr.arpa. 3600 IN    PTR    pages.github.com.</div></pre></td></tr></table></figure>
+<p>上面的结果显示，192.30.252.153这台服务器的域名是pages.github.com。</p>
+<p>逆向查询的一个应用，是可以防止垃圾邮件，即验证发送邮件的IP地址，是否真的有他所声称的域名。</p>
+<p>dig命令可以查看指定的记录类型。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ dig a github.com</div><div class="line">$ dig ns github.com</div><div class="line">$ dig mx github.com</div></pre></td></tr></table></figure>
+<h1 id="九-其他dns工具"><a href="#九、其他DNS工具" class="headerlink" title="九、其他DNS工具"></a>九、其他DNS工具</h1><p>除了dig，还有一些其他的小工具可以使用。<br>（1）host命令<br>host命令可以看做dig命令的简化版本，返回当前请求域名的各种记录。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ host fengyao.me</div><div class="line">fengyao.me has address 192.30.252.154</div><div class="line">fengyao.me has address 192.30.252.153</div><div class="line">fengyao.me mail is handled by 10 mxw.mxhichina.com.</div><div class="line">fengyao.me mail is handled by 10 mxn.mxhichina.com.</div></pre></td></tr></table></figure>
+<p>host也可用于逆向查询，即从IP地址查询域名，等同于dig -x <ip>。</ip></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ host 192.30.252.153</div><div class="line">153.252.30.192.in-addr.arpa domain name pointer pages.github.com.</div></pre></td></tr></table></figure>
+<p>（2）nslookup命令<br>nslookup命令用于互动式地查询域名记录。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">$ nslookup</div><div class="line">&gt; fengyao.me</div><div class="line">Server:        192.168.3.1</div><div class="line">Address:    192.168.3.1#53</div><div class="line"></div><div class="line">Non-authoritative answer:</div><div class="line">Name:    fengyao.me</div><div class="line">Address: 192.30.252.154</div><div class="line">Name:    fengyao.me</div><div class="line">Address: 192.30.252.153</div><div class="line">&gt;</div></pre></td></tr></table></figure>
+<p>（3）whois命令<br>whois命令用来查询域名的注册情况。</p>
+<h1 id="十-参考"><a href="#十、参考" class="headerlink" title="十、参考"></a>十、参考</h1><ol>
+<li><a href="http://www.ruanyifeng.com/blog/2016/06/dns.html" target="_blank" rel="external">DNS原理入门–阮一峰</a></li>
+</ol>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+
+
+  <article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2016-06-22T15:04:19.000Z"><a href="/2016/06/22/how-to-use-flash-to-prompt-in-the-flash-jinja2/">2016-06-22</a></time>
       
       
