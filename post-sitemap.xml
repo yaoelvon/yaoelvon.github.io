@@ -7,6 +7,14 @@
     </url>
 
     <url>
+        <loc>http://yaofeng.org/2018/04/15/hash-function/</loc>
+        <lastmod>2018-04-16T13:26:13.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>http://yaofeng.org/2018/03/21/modify-ubuntu-pip-source/</loc>
         <lastmod>2018-03-21T03:32:47.000Z</lastmod>
         <changefreq>weekly</changefreq>

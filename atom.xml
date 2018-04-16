@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yaofeng.org/"/>
-  <updated>2018-03-21T03:32:47.000Z</updated>
+  <updated>2018-04-16T13:26:13.000Z</updated>
   <id>http://yaofeng.org/</id>
   
   <author>
@@ -14,6 +14,49 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title></title>
+    <link href="http://yaofeng.org/2018/04/15/hash-function/"/>
+    <id>http://yaofeng.org/2018/04/15/hash-function/</id>
+    <published>2018-04-15T16:00:00.000Z</published>
+    <updated>2018-04-16T13:26:13.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="哈希算法"><a href="#哈希算法" class="headerlink" title="哈希算法"></a>哈希算法</h2><blockquote>
+<ul>
+<li>什么是hash函数？</li>
+<li>常见的hash算法</li>
+<li>hashlib的用法</li>
+<li>hash算法的用途</li>
+</ul>
+</blockquote>
+<h2 id="什么是hash函数"><a href="#什么是hash函数？" class="headerlink" title="什么是hash函数？"></a>什么是hash函数？</h2><p>哈希函数，又称哈希算法，它通过一个函数，把任意长度的数据转换为一个长度固定的数据串（通常用16进制的字符串表示）。<br>Hash算法特别的地方在于它是一种<strong>单向算法</strong>，用户可以通过Hash算法对目标信息生成一段特定长度的唯一的Hash值，却不能通过这个Hash值重新获得目标信息。因此Hash算法常用在不可还原的密码存储、信息完整性校验等。</p>
+<h4 id="hash值的两个特性"><a href="#hash值的两个特性" class="headerlink" title="hash值的两个特性"></a>hash值的两个特性</h4><p>抗碰撞能力：对于任意两个不同的数据块，其hash值相同的可能性极小；对于一个给定的数据块，找到和它hash值相同的数据块极为困难。<br>抗篡改能力：对于一个数据块，哪怕只改动其一个比特位，其hash值的改动也会非常大。</p>
+<h2 id="常用的hash算法"><a href="#常用的hash算法" class="headerlink" title="常用的hash算法"></a>常用的hash算法</h2><p>常见的Hash算法有MD2、MD4、MD5、SHA1、SHA256和SHA512<br>加密算法的效能通常可以按照算法本身的复杂程度、密钥长度（密钥越长越安全）、加解密速度等来衡量。上述的算法中，MD2速度较慢已逐渐被淘汰外，其他算法仍在目前的加密系统产品中使用。</p>
+<p>MD5的全称是Message-Digest Algorithm 5（信息-摘要算法）。<br>MD5的结果是128bit字节，通常由32位16进制字符串表示。<br>具有很高的安全性。它对应任何字符串都可以加密成一段唯一的固定长度的代码。</p>
+<p>SHA1的全称是Secure Hash Algorithm(安全哈希算法) 。SHA1基于MD5，加密后的数据长度更长，<br>它对长度小于264的输入，产生长度为160bit的散列值，比MD5多32bit，通常由40位的16进制字符串表示。<br>因此，比MD5更加安全，但SHA1的运算速度就比MD5要慢了。</p>
+<h2 id="hashlib的用法"><a href="#hashlib的用法" class="headerlink" title="hashlib的用法"></a>hashlib的用法</h2><p>下面以算法MD5为例，计算一个字符串的MD5值：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">import hashlib</div><div class="line"></div><div class="line">md5 = hashlib.md5()</div><div class="line">md5.update(&quot;how to use md5 in python hashlib?&quot;)</div><div class="line">print md5.hexdigest()	# digest的意思是摘要，hex是16进制的意思</div></pre></td></tr></table></figure></p>
+<p>计算结果如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">d26a53750bc40b38b65a520292f69306</div></pre></td></tr></table></figure></p>
+<p>另一种常见的摘要算法是SHA1：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">import hashlib</div><div class="line"></div><div class="line">sha1 = hashlib.sha1()</div><div class="line">sha1.update(&quot;how to use sha1 in python hashlib?&quot;)</div><div class="line">print sha1.hexdigest()</div></pre></td></tr></table></figure></p>
+<h2 id="hash算法的用途"><a href="#hash算法的用途" class="headerlink" title="hash算法的用途"></a>hash算法的用途</h2><h4 id="1加密网站注册用户的密码"><a href="#1-加密网站注册用户的密码" class="headerlink" title="1.加密网站注册用户的密码"></a>1.加密网站注册用户的密码</h4><p>在密码学中，hash算法的主要作用是用于消息摘要和签名，主要用于消息的完整性校验。<br>hash算法不可逆，用于密文保存密码的签名，网站后台只保存签名值。<br>在上述场景下，对于抗碰撞和抗篡改能力要求极高，对于速度要求在其次。</p>
+<h4 id="2网站用户上传图片文件后计算出md5值作为文件名"><a href="#2-网站用户上传图片-文件后，计算出MD5值作为文件名" class="headerlink" title="2.网站用户上传图片/文件后，计算出MD5值作为文件名"></a>2.网站用户上传图片/文件后，计算出MD5值作为文件名</h4><p>MD5可以保证唯一性。</p>
+<h4 id="3key-value数据库中使用md5作为key"><a href="#3-key-value数据库中使用MD5作为key" class="headerlink" title="3.key-value数据库中使用MD5作为key"></a>3.key-value数据库中使用MD5作为key</h4><p>在使用hash进行管理的数据结构中，比如hashmap，hash值（key）存在的目的是加速键值对的查找，key的作用是为了将元素适当的放在各个桶里，对抗碰撞的要求不是那么高。换句话说，hash出来的key，只要保证value大致均匀的放在不同的桶里就可以了。但整个算法的set性能，直接与hash值产生的速度有关，所以这时候的hash值的产生速度就尤为重要。</p>
+<h4 id="4比较两个文件是否相同"><a href="#4-比较两个文件是否相同" class="headerlink" title="4.比较两个文件是否相同"></a>4.比较两个文件是否相同</h4><p>大家在下载一些资源的时候，就会发现网站提供了MD5值，就是用来检测文件是否被篡改。</p>
+<p>参考（侵删）：<br>1.<a href="https://docs.python.org/2/library/hashlib.html" target="_blank" rel="external">python2.7 hashlib</a><br>2.<a href="https://www.zhihu.com/question/26762707/answer/40119521" target="_blank" rel="external">到底什么是hash? - 之幽的回答 - 知乎</a><br>3.<a href="https://www.liaoxuefeng.com/wiki/001374738125095c955c1e6d8bb493182103fac9270762a000/0013868328251266d86585fc9514536a638f06b41908d44000#0" target="_blank" rel="external">hashlib</a><br>4.<a href="http://www.cnblogs.com/MikeChen/archive/2011/04/22/2024574.html" target="_blank" rel="external">常见的加密算法有哪些？</a><br>5.<a href="http://tool.oschina.net/encrypt?type=2" target="_blank" rel="external">在线加密解密</a><br>6.[python中的MD5和SHA1加密](<a href="https://www.cnblogs.com/the4king/archive/2012/02/06/2340660.html" target="_blank" rel="external">https://www.cnblogs.com/the4king/archive/2012/02/06/2340660.html</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;哈希算法&quot;&gt;&lt;a href=&quot;#哈希算法&quot; class=&quot;headerlink&quot; title=&quot;哈希算法&quot;&gt;&lt;/a&gt;哈希算法&lt;/h2&gt;&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;什么是hash函数？&lt;/li&gt;
+&lt;li&gt;常见的hash算法&lt;/li&gt;
+&lt;li&gt;hash
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>修改ubuntu系统中的pip源</title>
